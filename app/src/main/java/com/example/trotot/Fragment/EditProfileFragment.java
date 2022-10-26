@@ -31,6 +31,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.PermissionChecker;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.trotot.Database.ConnectDatabase;
 import com.example.trotot.MainActivity;
@@ -50,8 +51,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditProfileFragment extends Fragment {
     User user;
-    String email, fullName, phoneNumber;
-    Button btnConfirm;
+    String email, fullName, phoneNumber, image;
+    Button btnConfirm, btnCancel;
     EditText edtUsername, edtFullName, edtEmail, edtPhoneNumber;
     CircleImageView uploadImg;
     //Session
@@ -67,24 +68,27 @@ public class EditProfileFragment extends Fragment {
         //Set session
         prefs = this.getActivity().getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
         InitView(view);
+        // Get user id from session
         user_id = prefs.getInt("user_id", 0);
         try {
             ConnectDatabase connectDatabase = new ConnectDatabase();
             connection = connectDatabase.ConnectToDatabase();
             if (connection != null) {
-                // Get User by user id
+                // Get user info by user id
                 String query = "select * from [User] where user_id = " + user_id + ";";
                 Statement st = connection.createStatement();
                 ResultSet rs = st.executeQuery(query);
                 if (rs.next()) {
+                    // Set constructor
                     user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getDate(7), rs.getInt(8), rs.getString(9));
                     edtUsername.setText(user.getUsername());
                     edtEmail.setText(user.getEmail());
                     edtPhoneNumber.setText(user.getPhone_number());
                     edtFullName.setText(user.getFull_name());
-                    //Set image
+                    // Decode image
                     byte[] bytes = Base64.decode(user.getAvatar(), Base64.DEFAULT);
                     Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    // Set image
                     uploadImg.setImageBitmap(bitmap);
                     // Update info
                     btnConfirm.setOnClickListener(new View.OnClickListener() {
@@ -94,8 +98,11 @@ public class EditProfileFragment extends Fragment {
                             email = edtEmail.getText().toString();
                             fullName = edtFullName.getText().toString();
                             phoneNumber = edtPhoneNumber.getText().toString();
+                            // Check validate some field
                             if (validationUpdateProfile(email, fullName, phoneNumber)) {
-                                new sendData().execute();
+                                // Update data user info
+                                new sendData().execute("");
+                                Toast.makeText(getActivity(), "Update Success", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(getActivity(), "Error data", Toast.LENGTH_SHORT).show();
                             }
@@ -109,6 +116,7 @@ public class EditProfileFragment extends Fragment {
             Log.e("Fail", e.getMessage());
         }
 
+        // Handle avatar image change
         uploadImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,9 +134,21 @@ public class EditProfileFragment extends Fragment {
                         });
             }
         });
+
+        // Change fragment
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.body_container, new ProfileFragment());
+                ft.commit();
+            }
+        });
+
         return view;
     }
 
+    // Upload image when change image
     final ActivityResultLauncher<Intent> startForMediaPickerResult = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -147,15 +167,13 @@ public class EditProfileFragment extends Fragment {
         protected String doInBackground(String... strings) {
             String message = "fail";
             try {
-                String image = saveImage();
-                String update = "Update [User] set email = '" + email + "', full_name = '" + fullName + "', phone_number = '" + phoneNumber + "', avatar = '"+image+"'  where user_id = " + user_id + "";
+                image = saveImage();
+                String update = "Update [User] set email = '" + email + "', full_name = '" + fullName + "', phone_number = '" + phoneNumber + "', avatar = '"+ image +"'  where user_id = " + user_id + "";
                 Statement st = connection.createStatement();
                 int rs = st.executeUpdate(update);
                 if (rs == -1) {
                     message = "success";
-                    Toast.makeText(getActivity(), "Update Fail", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getActivity(), "Update Success", Toast.LENGTH_SHORT).show();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -164,6 +182,7 @@ public class EditProfileFragment extends Fragment {
         }
     }
 
+    // Encode image uri to byte array
     public String saveImage() {
         BitmapDrawable bitmapDrawable = (BitmapDrawable) uploadImg.getDrawable();
         Bitmap bitmap = bitmapDrawable.getBitmap();
@@ -183,11 +202,12 @@ public class EditProfileFragment extends Fragment {
         edtPhoneNumber = view.findViewById(R.id.EditProfile_PhoneNumber);
 
         btnConfirm = view.findViewById(R.id.EditProfile_btnConfirm);
+        btnCancel = view.findViewById(R.id.EditProfile_btnCancel);
         uploadImg = view.findViewById(R.id.EditProfile_AvatarView);
     }
 
     // Check validation
-    public boolean validationUpdateProfile(String email, String fullName, String phoneNumber) {
+    public boolean validationUpdateProfile(@NonNull String email, String fullName, String phoneNumber) {
         if (email.length() <= 8) {
             edtEmail.requestFocus();
             edtEmail.setError("Email must be greater than 8 character");
