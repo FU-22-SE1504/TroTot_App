@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <include
+        layout="@layout/custom_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/EditProfile_AvatarView"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="147dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="145dp"
+        android:src="@drawable/ic_profile"
+        app:civ_border_width="1dp" />
+
+    <EditText
+        android:id="@+id/EditProfile_Email"
+        android:layout_width="315dp"
+        android:layout_height="42dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="49dp"
+        android:layout_marginTop="220dp"
+        android:background="@drawable/custom_input"
+        android:paddingLeft="10dp"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <EditText
+        android:id="@+id/EditProfile_Username"
+        android:layout_width="315dp"
+        android:layout_height="42dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="49dp"
+        android:layout_marginTop="270dp"
+        android:background="@drawable/custom_input"
+        android:editable="false"
+        android:paddingLeft="10dp"
+
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <EditText
+        android:id="@+id/EditProfile_FullName"
+        android:layout_width="315dp"
+        android:layout_height="42dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="49dp"
+        android:layout_marginTop="320dp"
+        android:background="@drawable/custom_input"
+        android:hint="Your Full Name"
+        android:paddingLeft="10dp"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <EditText
+        android:id="@+id/EditProfile_PhoneNumber"
+        android:layout_width="315dp"
+        android:layout_height="42dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="49dp"
+        android:layout_marginTop="370dp"
+        android:background="@drawable/custom_input"
+        android:hint="Your Phone Number"
+        android:paddingLeft="10dp"
+        tools:ignore="TouchTargetSizeCheck" />
+
+<!--    <EditText-->
+<!--        android:id="@+id/EditProfile_Password"-->
+<!--        android:layout_width="315dp"-->
+<!--        android:layout_height="42dp"-->
+<!--        android:layout_alignParentLeft="true"-->
+<!--        android:layout_alignParentTop="true"-->
+<!--        android:layout_marginLeft="49dp"-->
+<!--        android:layout_marginTop="420dp"-->
+<!--        android:background="@drawable/custom_input"-->
+<!--        android:drawableEnd="@drawable/ic_hidden"-->
+<!--        android:inputType="textPassword"-->
+<!--        android:paddingEnd="10dp"-->
+<!--        android:paddingLeft="10dp"-->
+<!--        tools:ignore="TouchTargetSizeCheck" />-->
+
+
+    <Button
+        android:id="@+id/EditProfile_btnCancel"
+        android:layout_width="315dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="537dp"
+        android:background="@drawable/custom_input"
+        android:text="Cancel"
+        android:textColor="@color/primary"
+        android:theme="@style/Theme.ButtonColor"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <Button
+        android:id="@+id/EditProfile_btnConfirm"
+        android:layout_width="315dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="482dp"
+        android:background="@drawable/custom_input"
+        android:text="Done"
+        android:textColor="@color/white"
+        tools:ignore="TouchTargetSizeCheck" />
+</RelativeLayout>

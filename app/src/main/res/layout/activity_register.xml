@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <EditText
+        android:id="@+id/edt_Register_Username"
+        android:layout_width="322.84dp"
+        android:layout_height="49.51dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="44dp"
+        android:layout_marginTop="126dp"
+        android:background="@drawable/custom_input"
+        android:ems="10"
+        android:hint="Input Username"
+        android:inputType="textPersonName"
+        android:paddingStart="10dp"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/txtSignup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="27dp"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/lato_regular"
+        android:lineHeight="38.03dp"
+        android:text="Sign Up"
+        android:textColor="@color/primary"
+        android:textSize="31.69dp"
+        tools:layout_editor_absoluteX="55dp"
+        tools:layout_editor_absoluteY="120dp" />
+
+    <EditText
+        android:id="@+id/edt_Register_ConfirmPassword"
+        android:layout_width="322.84dp"
+        android:layout_height="49.51dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="46dp"
+        android:layout_marginTop="434dp"
+        android:background="@drawable/custom_input"
+        android:drawableEnd="@drawable/ic_hidden"
+        android:ems="10"
+        android:hint="**************"
+        android:inputType="textPassword"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp" />
+
+    <TextView
+        android:id="@+id/txtEmail"
+        android:layout_width="100dp"
+        android:layout_height="19dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="193dp"
+        android:drawableStart="@drawable/ic_email"
+        android:text="Email" />
+
+    <EditText
+        android:id="@+id/edt_Register_Password"
+        android:layout_width="322.84dp"
+        android:layout_height="49.51dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="325dp"
+        android:background="@drawable/custom_input"
+        android:drawableEnd="@drawable/ic_hidden"
+        android:ems="10"
+        android:hint="**************"
+        android:inputType="textPassword"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp" />
+
+    <TextView
+        android:id="@+id/txt_ConfirmPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="46dp"
+        android:layout_marginTop="392dp"
+        android:drawableStart="@drawable/ic_password"
+        android:text="Confirm Password" />
+
+    <Button
+        android:id="@+id/btn_Register_SignUp"
+        android:layout_width="322.84dp"
+        android:layout_height="50.51dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="525dp"
+        android:text="Sign Up" />
+
+    <TextView
+        android:id="@+id/btn_Register_SignIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="233dp"
+        android:layout_marginTop="605dp"
+        android:text="Sign in"
+        android:textColor="@color/primary" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="86dp"
+        android:layout_marginTop="605dp"
+        android:text="Already have Account" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="13dp"
+        android:layout_height="16dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="201dp"
+        android:layout_marginTop="586dp"
+        android:text="or" />
+
+    <EditText
+        android:id="@+id/edt_Register_Email"
+        android:layout_width="322.84dp"
+        android:layout_height="49.51dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="224dp"
+        android:background="@drawable/custom_input"
+        android:ems="10"
+        android:hint="Input Email"
+        android:inputType="textEmailAddress"
+        android:paddingStart="10dp"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/txtPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="287dp"
+        android:drawableStart="@drawable/ic_password"
+        android:text="Password" />
+
+    <TextView
+        android:id="@+id/txtUsername"
+        android:layout_width="99dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="46dp"
+        android:layout_marginTop="88dp"
+        android:drawableStart="@drawable/ic_username"
+        android:text="Username" />
+
+</RelativeLayout>
