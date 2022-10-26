@@ -6,6 +6,64 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/txtPassword2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/EditProfile_Username"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="48dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="276dp"
+        android:drawableStart="@drawable/ic_password"
+        android:text="Password" />
+
+    <TextView
+        android:id="@+id/txtPassword3"
+        android:layout_width="141dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/EditProfile_FullName"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="49dp"
+        android:layout_marginLeft="49dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="223dp"
+        android:drawableStart="@drawable/ic_phone"
+        android:text="Phone Number" />
+
+    <TextView
+        android:id="@+id/txtEmail2"
+        android:layout_width="100dp"
+        android:layout_height="19dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="197dp"
+        android:layout_marginEnd="261dp"
+        android:drawableStart="@drawable/ic_email"
+        android:text="Email" />
+
+    <TextView
+        android:id="@+id/txtUsername2"
+        android:layout_width="99dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="49dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginTop="263dp"
+        android:layout_marginEnd="264dp"
+        android:drawableStart="@drawable/ic_username"
+        android:text="Username" />
+
     <include
         layout="@layout/custom_toolbar"
         android:layout_width="match_parent"
@@ -34,6 +92,7 @@
         android:paddingLeft="10dp"
         tools:ignore="TouchTargetSizeCheck" />
 
+
     <EditText
         android:id="@+id/EditProfile_Username"
         android:layout_width="315dp"
@@ -41,7 +100,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="49dp"
-        android:layout_marginTop="270dp"
+        android:layout_marginTop="284dp"
         android:background="@drawable/custom_input"
         android:editable="false"
         android:paddingLeft="10dp"
@@ -55,7 +114,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="49dp"
-        android:layout_marginTop="320dp"
+        android:layout_marginTop="355dp"
         android:background="@drawable/custom_input"
         android:hint="Your Full Name"
         android:paddingLeft="10dp"
@@ -68,27 +127,11 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="49dp"
-        android:layout_marginTop="370dp"
+        android:layout_marginTop="424dp"
         android:background="@drawable/custom_input"
         android:hint="Your Phone Number"
         android:paddingLeft="10dp"
         tools:ignore="TouchTargetSizeCheck" />
-
-<!--    <EditText-->
-<!--        android:id="@+id/EditProfile_Password"-->
-<!--        android:layout_width="315dp"-->
-<!--        android:layout_height="42dp"-->
-<!--        android:layout_alignParentLeft="true"-->
-<!--        android:layout_alignParentTop="true"-->
-<!--        android:layout_marginLeft="49dp"-->
-<!--        android:layout_marginTop="420dp"-->
-<!--        android:background="@drawable/custom_input"-->
-<!--        android:drawableEnd="@drawable/ic_hidden"-->
-<!--        android:inputType="textPassword"-->
-<!--        android:paddingEnd="10dp"-->
-<!--        android:paddingLeft="10dp"-->
-<!--        tools:ignore="TouchTargetSizeCheck" />-->
-
 
     <Button
         android:id="@+id/EditProfile_btnCancel"
