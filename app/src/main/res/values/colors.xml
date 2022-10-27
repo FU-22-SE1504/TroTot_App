@@ -7,5 +7,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="ligt_white">#D2D2D2</color>
-    <color name="primary">#1C9FE2</color>
+    <color name="primary">#06599A</color>
+    <color name="ImageView">#EC1809</color>
+
 </resources>
