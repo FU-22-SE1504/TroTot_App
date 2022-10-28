@@ -31,6 +31,7 @@ import com.example.trotot.Fragment.CustomerFragment;
 import com.example.trotot.Fragment.EditProfileFragment;
 import com.example.trotot.Fragment.HomeFragment;
 import com.example.trotot.Fragment.HouseholderFragment;
+import com.example.trotot.Fragment.PostFragment;
 import com.example.trotot.Fragment.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Toolbar
     Toolbar toolbar;
+    TextView toolbarTitle;
 
     //Logout
     ImageView btnLogout;
@@ -67,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         // Check connect internet
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, PackageManager.PERMISSION_GRANTED);
 
+        toolbarTitle = findViewById(R.id.toolbar_title);
         toolbar = (Toolbar) findViewById(R.id.toolbarCustom);
         setSupportActionBar(toolbar);
 
@@ -102,23 +105,29 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                String headerTitle = "Home Page";
                 Intent intent = null;
                 String selectedItem = null;
                 Fragment fragment = new HomeFragment();
                 switch (item.getItemId()){
                     case R.id.nav_customer:
+                        headerTitle = "Customer Page";
                         fragment = new CustomerFragment();
                         break;
                     case R.id.nav_householder:
+                        headerTitle = "Householder Page";
                         fragment = new HouseholderFragment();
                         break;
                     case R.id.nav_home:
+                        headerTitle = "Home Page";
                         fragment = new HomeFragment();
                         break;
                     case R.id.nav_addpost:
-                        fragment = new HomeFragment();
+                        headerTitle = "Create New Post";
+                        fragment = new PostFragment();
                         break;
                     default:
+                        headerTitle = "User Profile";
                         int user_id = prefs.getInt("user_id", 0);
                         if(user_id == 0){
                             startActivity(new Intent(MainActivity.this,LoginActivity.class));
@@ -127,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         break;
                 }
+                toolbarTitle.setText(headerTitle);
                 // Change activity
                 getSupportFragmentManager().beginTransaction().replace(R.id.body_container, fragment).commit();
                 return true;

@@ -5,11 +5,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/body_container"
     android:background="@color/white"
     tools:context=".MainActivity">
 
-    <include layout="@layout/custom_toolbar"/>
+    <include layout="@layout/custom_toolbar" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -27,5 +26,14 @@
         app:itemRippleColor="@android:color/transparent"
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/item_menu" />
+
+    <RelativeLayout
+        android:id="@+id/body_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="56dp">
+
+    </RelativeLayout>
+
 
 </RelativeLayout>

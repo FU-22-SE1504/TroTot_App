@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
+    <Button
+        android:id="@+id/EditProfile_btnConfirm"
+        android:layout_width="315dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="47dp"
+        android:layout_marginTop="410dp"
+        android:background="@drawable/custom_input"
+        android:text="Done"
+        android:textColor="@color/white"
+        tools:ignore="TouchTargetSizeCheck" />
+
     <TextView
         android:id="@+id/txtPassword2"
         android:layout_width="wrap_content"
@@ -14,10 +28,10 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="48dp"
-        android:layout_marginLeft="48dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginLeft="45dp"
         android:layout_marginTop="2dp"
-        android:layout_marginEnd="276dp"
+        android:layout_marginEnd="279dp"
         android:drawableStart="@drawable/ic_password"
         android:text="Password" />
 
@@ -29,10 +43,10 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="49dp"
-        android:layout_marginLeft="49dp"
+        android:layout_marginStart="46dp"
+        android:layout_marginLeft="46dp"
         android:layout_marginTop="1dp"
-        android:layout_marginEnd="223dp"
+        android:layout_marginEnd="226dp"
         android:drawableStart="@drawable/ic_phone"
         android:text="Phone Number" />
 
@@ -43,9 +57,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="197dp"
-        android:layout_marginEnd="261dp"
+        android:layout_marginLeft="47dp"
+        android:layout_marginTop="125dp"
+        android:layout_marginEnd="264dp"
         android:drawableStart="@drawable/ic_email"
         android:text="Email" />
 
@@ -57,17 +71,12 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="49dp"
-        android:layout_marginLeft="48dp"
-        android:layout_marginTop="263dp"
-        android:layout_marginEnd="264dp"
+        android:layout_marginStart="46dp"
+        android:layout_marginLeft="46dp"
+        android:layout_marginTop="191dp"
+        android:layout_marginEnd="267dp"
         android:drawableStart="@drawable/ic_username"
         android:text="Username" />
-
-    <include
-        layout="@layout/custom_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/EditProfile_AvatarView"
@@ -75,8 +84,8 @@
         android:layout_height="120dp"
         android:layout_alignParentEnd="true"
         android:layout_marginLeft="147dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="145dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="148dp"
         android:src="@drawable/ic_profile"
         app:civ_border_width="1dp" />
 
@@ -86,12 +95,11 @@
         android:layout_height="42dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="49dp"
-        android:layout_marginTop="220dp"
+        android:layout_marginLeft="46dp"
+        android:layout_marginTop="148dp"
         android:background="@drawable/custom_input"
         android:paddingLeft="10dp"
         tools:ignore="TouchTargetSizeCheck" />
-
 
     <EditText
         android:id="@+id/EditProfile_Username"
@@ -99,8 +107,8 @@
         android:layout_height="42dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="49dp"
-        android:layout_marginTop="284dp"
+        android:layout_marginLeft="46dp"
+        android:layout_marginTop="212dp"
         android:background="@drawable/custom_input"
         android:editable="false"
         android:paddingLeft="10dp"
@@ -113,8 +121,8 @@
         android:layout_height="42dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="49dp"
-        android:layout_marginTop="355dp"
+        android:layout_marginLeft="46dp"
+        android:layout_marginTop="283dp"
         android:background="@drawable/custom_input"
         android:hint="Your Full Name"
         android:paddingLeft="10dp"
@@ -126,8 +134,8 @@
         android:layout_height="42dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="49dp"
-        android:layout_marginTop="424dp"
+        android:layout_marginLeft="46dp"
+        android:layout_marginTop="352dp"
         android:background="@drawable/custom_input"
         android:hint="Your Phone Number"
         android:paddingLeft="10dp"
@@ -139,24 +147,11 @@
         android:layout_height="40dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="537dp"
+        android:layout_marginLeft="47dp"
+        android:layout_marginTop="465dp"
         android:background="@drawable/custom_input"
         android:text="Cancel"
         android:textColor="@color/primary"
         android:theme="@style/Theme.ButtonColor"
-        tools:ignore="TouchTargetSizeCheck" />
-
-    <Button
-        android:id="@+id/EditProfile_btnConfirm"
-        android:layout_width="315dp"
-        android:layout_height="40dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="482dp"
-        android:background="@drawable/custom_input"
-        android:text="Done"
-        android:textColor="@color/white"
         tools:ignore="TouchTargetSizeCheck" />
 </RelativeLayout>
