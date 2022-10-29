@@ -1,21 +1,16 @@
 package com.example.trotot.Fragment;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Debug;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,17 +24,13 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.PermissionChecker;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.trotot.Database.ConnectDatabase;
-import com.example.trotot.MainActivity;
 import com.example.trotot.R;
-import com.example.trotot.User;
+import com.example.trotot.Model.User;
 import com.github.dhaval2404.imagepicker.ImagePicker;
-
-import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.Connection;

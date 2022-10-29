@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.trotot.Database.ConnectDatabase;
+import com.example.trotot.Model.User;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

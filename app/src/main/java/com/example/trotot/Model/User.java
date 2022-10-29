@@ -1,4 +1,4 @@
-package com.example.trotot;
+package com.example.trotot.Model;
 
 import org.w3c.dom.Text;
 
