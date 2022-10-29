@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="360dp"
+    android:layout_height="140dp"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp"
+    >
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:cardCornerRadius="20dp"
+        >
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/recentpost_img"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/ava_2"
+            android:scaleType="centerCrop"     app:shapeAppearanceOverlay="@style/roundedImageView"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/recentpost_name"
+            android:layout_marginLeft="130dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="NhaTrong Hoang Nam"/>
+        <TextView
+            android:id="@+id/recentpost_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="130dp"
+            android:layout_marginTop="25dp"
+            android:textSize="15dp"
+            android:drawableStart="@drawable/ic_location"
+            android:text="Ninh kieu can tho"/>
+        <TextView
+            android:id="@+id/recentpost_describe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="130dp"
+            android:paddingLeft="10dp"
+            android:text="LThoang mat sach ser. day du tien nghi, bao gom 1 may lanh va 1 may giat"/>
+        <TextView
+            android:id="@+id/recentpost_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="130dp"
+            android:paddingLeft="10dp"
+            android:text="3tr200 vnd/month"
+            />
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>
