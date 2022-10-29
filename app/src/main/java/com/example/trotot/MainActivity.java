@@ -7,25 +7,40 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.trotot.Database.ConnectDatabase;
 import com.example.trotot.Fragment.CustomerFragment;
+import com.example.trotot.Fragment.EditProfileFragment;
 import com.example.trotot.Fragment.HomeFragment;
 import com.example.trotot.Fragment.HouseholderFragment;
 import com.example.trotot.Fragment.PostFragment;
 import com.example.trotot.Fragment.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
