@@ -140,6 +140,21 @@
         android:hint="Your Phone Number"
         android:paddingLeft="10dp"
         tools:ignore="TouchTargetSizeCheck" />
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_progress_bar"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:text="0.0%"
+        />
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:id="@+id/progress_bar"
+        />
 
     <Button
         android:id="@+id/EditProfile_btnCancel"

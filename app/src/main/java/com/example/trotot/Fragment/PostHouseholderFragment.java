@@ -1,66 +1,123 @@
     package com.example.trotot.Fragment;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.trotot.R;
+import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PostHouseholderFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class PostHouseholderFragment extends Fragment {
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.logging.SimpleFormatter;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    public class PostHouseholderFragment extends Fragment {
+        View view;
+        ImageView imagePoster;
+        Button btnConfirm;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+        //Image file
+        Uri uri;
+        StorageReference storageReference;
+        ProgressDialog progressDialog;
 
-    public PostHouseholderFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PostHouseholderFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static PostHouseholderFragment newInstance(String param1, String param2) {
-        PostHouseholderFragment fragment = new PostHouseholderFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_post_householder, container, false);
+        InitView();
+
+        // Get image url and set image
+        imagePoster.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectImage();
+            }
+        });
+
+        // Check validate and save data
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                handleOnClickConfirm();
+            }
+        });
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_post_householder, container, false);
+        return view;
     }
-}
+
+        private void handleOnClickConfirm() {
+            progressDialog = new ProgressDialog(getContext());
+            progressDialog.setTitle("Uploading File....");
+            progressDialog.show();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd", Locale.ROOT);
+            Date now = new Date();
+            String fileName = formatter.format(now);
+            storageReference = FirebaseStorage.getInstance().getReference("UserAvatar/"+fileName);
+            storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(getActivity(), "Successfully Uploaded", Toast.LENGTH_SHORT).show();
+                    if (progressDialog.isShowing())
+                        progressDialog.dismiss();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    if(progressDialog.isShowing())
+                        progressDialog.dismiss();
+                    Toast.makeText(getActivity(), "Failed to Upload", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        private void selectImage() {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
+            startForMediaPickerResult.launch(intent);
+        }
+
+        private void InitView() {
+            imagePoster = view.findViewById(R.id.post_householder_poster);
+
+            btnConfirm = view.findViewById(R.id.post_householder_btn_confirm);
+        }
+
+        final ActivityResultLauncher<Intent> startForMediaPickerResult = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    Intent data = result.getData();
+                    if (data != null && result.getResultCode() == Activity.RESULT_OK) {
+                        uri = data.getData();
+                        imagePoster.setImageURI(uri);
+                    } else {
+                        Toast.makeText(requireActivity(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+    }

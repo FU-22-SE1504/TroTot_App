@@ -84,6 +84,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
+                android:id="@+id/post_householder_btn_confirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/quicksand"
@@ -95,17 +96,17 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/post_householder_btn_upload_poster"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:backgroundTint="@color/primary"
-        android:src="@drawable/ic_camera"
-        android:tint="@color/white"
-        app:layout_anchor="@id/post_householder_poster"
-        app:layout_anchorGravity="bottom|right|end"
-        tools:ignore="SpeakableTextPresentCheck" />
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/post_householder_btn_upload_poster"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="16dp"-->
+<!--        android:backgroundTint="@color/primary"-->
+<!--        android:src="@drawable/ic_camera"-->
+<!--        android:tint="@color/white"-->
+<!--        app:layout_anchor="@id/post_householder_poster"-->
+<!--        app:layout_anchorGravity="bottom|right|end"-->
+<!--        tools:ignore="SpeakableTextPresentCheck" />-->
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -17,6 +17,9 @@ public class User {
 
     public User(){}
 
+    public User(String avatar){
+        this.avatar = avatar;
+    }
 
     public User(int user_id, String username, String password, String email, String phone_number, String full_name, Date create_at, int role_id, String avatar) {
         this.user_id = user_id;

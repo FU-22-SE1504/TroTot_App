@@ -22,9 +22,9 @@ public class ConnectDatabase {
         pass = "123456";
         port = "1433";
         //Coffe ip
-        ip = "10.0.42.164";
-        //
-        //ip = "10.0.43.182";
+//        ip = "10.0.40.250";
+        //Home
+        ip = "192.168.1.75";
         database = "TroTot";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

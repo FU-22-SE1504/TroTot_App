@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "445545472115",
+    "project_id": "trotot-54a4a",
+    "storage_bucket": "trotot-54a4a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:445545472115:android:0c7d71b5cd154622088a06",
+        "android_client_info": {
+          "package_name": "com.example.trotot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "445545472115-tm82a83v29ku41j3s38inc9behtll123.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDg3FOACFXA6zvSrXgo8dPSGzFIDf5S7JI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "445545472115-tm82a83v29ku41j3s38inc9behtll123.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
