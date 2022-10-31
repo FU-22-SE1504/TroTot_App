@@ -24,7 +24,9 @@ public class ConnectDatabase {
         //Coffe ip
 //        ip = "10.0.40.250";
         //Home
-        ip = "192.168.1.75";
+//        ip = "192.168.1.75";
+        // Class
+        ip = "10.66.163.207";
         database = "TroTot";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

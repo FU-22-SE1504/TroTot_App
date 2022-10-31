@@ -33,6 +33,14 @@ public class User {
         this.avatar = avatar;
     }
 
+    public User(String username, String email, String phone_number, String full_name, String avatar) {
+        this.username = username;
+        this.email = email;
+        this.phone_number = phone_number;
+        this.full_name = full_name;
+        this.avatar = avatar;
+    }
+
     public int getUser_id() {
         return user_id;
     }

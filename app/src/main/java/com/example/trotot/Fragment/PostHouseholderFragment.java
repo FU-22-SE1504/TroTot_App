@@ -2,6 +2,7 @@
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -75,8 +77,9 @@ import java.util.logging.SimpleFormatter;
             progressDialog.show();
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd", Locale.ROOT);
             Date now = new Date();
+            String fileExtension = GetFileExtension(uri);
             String fileName = formatter.format(now);
-            storageReference = FirebaseStorage.getInstance().getReference("UserAvatar/"+fileName);
+            storageReference = FirebaseStorage.getInstance().getReference("UserAvatar/"+fileName + "." + fileExtension);
             storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -119,5 +122,13 @@ import java.util.logging.SimpleFormatter;
                     }
                 });
 
+        // Get Extension
+        public String GetFileExtension(Uri uri)
+        {
+            ContentResolver contentResolver = getActivity().getContentResolver();
+            MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
 
+            // Return file Extension
+            return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+        }
     }
