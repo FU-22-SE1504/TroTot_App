@@ -20,7 +20,7 @@
                 android:id="@+id/post_householder_poster"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:src="@mipmap/placehoder_image"
+                android:src="@mipmap/ic_banner"
                 />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -34,6 +34,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
+                    android:id="@+id/post_householder_title"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/quicksand"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -48,6 +49,7 @@
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/post_householder_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/quicksand"/>
@@ -63,6 +65,7 @@
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/post_householder_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/quicksand"/>
@@ -78,6 +81,23 @@
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/post_householder_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/quicksand"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:hint="Contact"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:startIconDrawable="@drawable/ic_phone"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/post_householder_contact"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/quicksand"/>

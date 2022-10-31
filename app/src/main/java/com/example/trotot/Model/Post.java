@@ -6,7 +6,7 @@ public class Post {
     private String title;
     private String description;
     private String address;
-    private int price;
+    private String price;
     private int type_id;
     private String poster;
 
@@ -50,11 +50,11 @@ public class Post {
         this.address = address;
     }
 
-    public int getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 

@@ -42,6 +42,7 @@ import com.example.trotot.RegisterActivity;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.database.DatabaseReference;
@@ -77,6 +78,10 @@ public class EditProfileFragment extends Fragment {
 
     // Data
     User user;
+    //Session
+    SharedPreferences prefs;
+    public static final String PREFERENCE_NAME = "PREFERENCE_DATA";
+    Integer user_id;
     ConnectDatabase connectDatabase;
     Connection connection;
     Statement st;
@@ -85,6 +90,7 @@ public class EditProfileFragment extends Fragment {
 
     //Image
     private Uri uri;
+    Bitmap bitmap;
     private ProgressDialog progressDialog;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
@@ -92,11 +98,14 @@ public class EditProfileFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
-        user = new User();
+
         InitView();
 
         // Fetch data
-        getUserData(user.getUser_id());
+        prefs = this.getActivity().getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+        user_id = prefs.getInt("user_id", 0);
+
+        getUserData(user_id);
 
         // Handle avatar image change
         imgAvatar.setOnClickListener(new View.OnClickListener() {
@@ -110,15 +119,16 @@ public class EditProfileFragment extends Fragment {
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(uri != null){
+                if(uri != null || bitmap != null){
+                    email = edtEmail.getText().toString();
+                    fullName = edtFullName.getText().toString();
+                    phoneNumber = edtPhoneNumber.getText().toString();
                     onClickUpdateProfile(uri);
                 }else{
                     Toast.makeText(getActivity(), "Please select image", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
-
         return view;
     }
 
@@ -145,25 +155,32 @@ public class EditProfileFragment extends Fragment {
                     edtEmail.setText(user.getEmail());
                     edtPhoneNumber.setText(user.getPhone_number());
                     edtFullName.setText(user.getFull_name());
+                    // Decode image
+                    byte[] bytes = Base64.decode(user.getAvatar(), Base64.DEFAULT);
+                    bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                     // Set image
-                    String imageID = user.getAvatar();
-                    StorageReference imageRef = storageReference.child("UserAvatar/" + imageID);
-                    long MAXBYTES = 1024*1024;
-                    imageRef.getBytes(MAXBYTES).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                        @Override
-                        public void onSuccess(byte[] bytes) {
-                            // Convert byte[] to bitmap
-                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                            imgAvatar.setImageBitmap(bitmap);
-                            if (progressDialog.isShowing())
-                                progressDialog.dismiss();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getActivity(), "Fetching fail", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    imgAvatar.setImageBitmap(bitmap);
+                    if (progressDialog.isShowing())
+                        progressDialog.dismiss();
+                    // Set image
+//                    String imageID = user.getAvatar();
+//                    StorageReference imageRef = storageReference.child("UserAvatar/" + imageID);
+//                    long MAXBYTES = 1024*1024;
+//                    imageRef.getBytes(MAXBYTES).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+//                        @Override
+//                        public void onSuccess(byte[] bytes) {
+//                            // Convert byte[] to bitmap
+//                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+//                            imgAvatar.setImageBitmap(bitmap);
+//                            if (progressDialog.isShowing())
+//                                progressDialog.dismiss();
+//                        }
+//                    }).addOnFailureListener(new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception e) {
+//                            Toast.makeText(getActivity(), "Fetching fail", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
                 }
             }
         }catch (Exception e){
@@ -171,68 +188,86 @@ public class EditProfileFragment extends Fragment {
         }
     }
 
-    private void onClickUpdateProfile(Uri uri) {
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setTitle("Uploading File....");
-        progressDialog.show();
-        String fileExtension = GetFileExtension(uri);
-        storageReference = FirebaseStorage.getInstance().getReference("UserAvatar/" + "Avatar_userID_" + user.getUser_id() + fileExtension);
-        storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                if (progressDialog.isShowing())
-                    progressDialog.dismiss();
-                try {
-                    updateQueryData();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                Toast.makeText(getActivity(), "Successfully Uploaded", Toast.LENGTH_SHORT).show();
 
+
+    private void onClickUpdateProfile(Uri uri) {
+        if (validationUpdateProfile(email, fullName, phoneNumber)) {
+            progressDialog = new ProgressDialog(getContext());
+            progressDialog.setTitle("Uploading File....");
+            progressDialog.show();
+            try {
+                updateQueryData();
+            } catch (Exception e) {
+                Toast.makeText(getActivity(), "Update data fail", Toast.LENGTH_SHORT).show();
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                if(progressDialog.isShowing())
-                    progressDialog.dismiss();
-                Toast.makeText(getActivity(), "Failed to Upload", Toast.LENGTH_SHORT).show();
-            }
-        });
+        }else {
+            Toast.makeText(getActivity(), "Update fail", Toast.LENGTH_SHORT).show();
+        }
+
+//        String fileExtension = GetFileExtension(uri);
+//        storageReference = FirebaseStorage.getInstance().getReference("UserAvatar/" + "Avatar_userID_" + user.getUser_id() + fileExtension);
+//        storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                if (progressDialog.isShowing())
+//                    progressDialog.dismiss();
+//                try {
+//                    updateQueryData();
+//                } catch (SQLException e) {
+//                    e.printStackTrace();
+//                }
+//                Toast.makeText(getActivity(), "Successfully Uploaded", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                if(progressDialog.isShowing())
+//                    progressDialog.dismiss();
+//                Toast.makeText(getActivity(), "Failed to Upload", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+    }
+
+    // Encode image uri to byte array
+    public String saveImage() {
+        BitmapDrawable bitmapDrawable = (BitmapDrawable) imgAvatar.getDrawable();
+        Bitmap bitmap = bitmapDrawable.getBitmap();
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        String image = Base64.encodeToString(bytes, Base64.DEFAULT);
+        return  image;
     }
 
     private void updateQueryData() throws SQLException {
-        if(validationUpdateProfile(email, fullName, phoneNumber))
         connectDatabase = new ConnectDatabase();
         connection = connectDatabase.ConnectToDatabase();
-
         if (connection != null){
-            String queryUpdate = "Update [User] set [email] = " + email + ", [phone_number] = " + phoneNumber +
-                    ", [full_name] =" + fullName + ", [avatar] = " + imgAvatar.toString() + " where user_id = " + user.getUser_id();
+            String avatar = saveImage();
+            String queryUpdate = "Update [User] set [email] = '" + email + "', [phone_number] = '" + phoneNumber +
+                    "', [full_name] = '" + fullName + "', [avatar] = '" + avatar + "' where user_id = " + user.getUser_id();
             st = connection.createStatement();
             st.executeUpdate(queryUpdate);
-            Toast.makeText(getActivity(), "Create successful", Toast.LENGTH_SHORT).show();
+            if (progressDialog.isShowing())
+                progressDialog.dismiss();
+            Toast.makeText(getActivity(), "Update information successful", Toast.LENGTH_SHORT).show();
         }
     }
 
-    //Get image extension
-    private String getFileExtension(Uri mUri){
-        ContentResolver cr = getContext().getContentResolver();
-        MimeTypeMap mine = MimeTypeMap.getSingleton();
-        return mine.getExtensionFromMimeType(cr.getType(mUri));
-    }
+//    //Get image extension
+//    private String getFileExtension(Uri mUri){
+//        ContentResolver cr = getContext().getContentResolver();
+//        MimeTypeMap mine = MimeTypeMap.getSingleton();
+//        return mine.getExtensionFromMimeType(cr.getType(mUri));
+//    }
 
     public void InitView() {
         edtUsername = view.findViewById(R.id.EditProfile_Username);
         edtEmail = view.findViewById(R.id.EditProfile_Email);
         edtFullName = view.findViewById(R.id.EditProfile_FullName);
         edtPhoneNumber = view.findViewById(R.id.EditProfile_PhoneNumber);
-
-        email = edtEmail.getText().toString();
-        fullName = edtFullName.getText().toString();
-        phoneNumber = edtPhoneNumber.getText().toString();
-
-        progressText = view.findViewById(R.id.text_progress_bar);
-        progressBar = view.findViewById(R.id.progress_bar);
 
         btnConfirm = view.findViewById(R.id.EditProfile_btnConfirm);
         btnCancel = view.findViewById(R.id.EditProfile_btnCancel);
@@ -255,16 +290,6 @@ public class EditProfileFragment extends Fragment {
                         Toast.makeText(requireActivity(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show();
                     }
                 });
-
-    // Get Extension
-    public String GetFileExtension(Uri uri)
-    {
-        ContentResolver contentResolver = getActivity().getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-
-        // Return file Extension
-        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
-    }
 
     private void selectImage() {
         Intent intent = new Intent();
@@ -304,8 +329,4 @@ public class EditProfileFragment extends Fragment {
             return true;
         }
     }
-
-
-
-
 }
