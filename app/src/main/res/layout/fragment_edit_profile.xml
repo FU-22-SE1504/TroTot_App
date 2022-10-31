@@ -140,7 +140,7 @@
         android:hint="Your Phone Number"
         android:paddingLeft="10dp"
         tools:ignore="TouchTargetSizeCheck" />
-
+    
     <Button
         android:id="@+id/EditProfile_btnCancel"
         android:layout_width="315dp"

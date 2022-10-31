@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragment.PostHouseholderFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_marginTop="20dp"
+                android:id="@+id/post_householder_poster"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:src="@mipmap/ic_banner"
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Title"
+                android:layout_margin="6dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+               app:startIconDrawable="@drawable/ic_title"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:id="@+id/post_householder_title"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/quicksand"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:hint="Description"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:startIconDrawable="@drawable/ic_description"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/post_householder_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/quicksand"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:hint="Address"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:startIconDrawable="@drawable/ic_address"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/post_householder_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/quicksand"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:hint="Price"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:startIconDrawable="@drawable/ic_price"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/post_householder_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/quicksand"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:hint="Contact"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:startIconDrawable="@drawable/ic_phone"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/post_householder_contact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/quicksand"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/post_householder_btn_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/quicksand"
+                android:text="Confirm"
+                android:layout_marginBottom="100dp"
+                android:layout_gravity="center"
+                />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/post_householder_btn_upload_poster"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="16dp"-->
+<!--        android:backgroundTint="@color/primary"-->
+<!--        android:src="@drawable/ic_camera"-->
+<!--        android:tint="@color/white"-->
+<!--        app:layout_anchor="@id/post_householder_poster"-->
+<!--        app:layout_anchorGravity="bottom|right|end"-->
+<!--        tools:ignore="SpeakableTextPresentCheck" />-->
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

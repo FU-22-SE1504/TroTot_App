@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 String headerTitle = "Home Page";
                 Intent intent = null;
+                int user_id = prefs.getInt("user_id", 0);
                 String selectedItem = null;
                 Fragment fragment = new HomeFragment();
                 switch (item.getItemId()){
@@ -123,15 +124,19 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new HomeFragment();
                         break;
                     case R.id.nav_addpost:
-                        headerTitle = "Create New Post";
-                        fragment = new PostFragment();
-                        break;
-                    default:
-                        headerTitle = "User Profile";
-                        int user_id = prefs.getInt("user_id", 0);
                         if(user_id == 0){
                             startActivity(new Intent(MainActivity.this,LoginActivity.class));
                         }else{
+                            headerTitle = "Create New Post";
+                            fragment = new PostFragment();
+                        }
+                        break;
+                    default:
+                        if(user_id == 0){
+
+                            startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                        }else{
+                            headerTitle = "User Profile";
                             fragment = new ProfileFragment();
                         }
                         break;
