@@ -34,6 +34,7 @@ import com.example.trotot.RegisterActivity;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -53,6 +54,7 @@ import java.util.prefs.Preferences;
         View view;
         ImageView imagePoster;
         Button btnConfirm;
+        FloatingActionButton btnUploadImage;
         EditText edtTitle, edtDescription, edtAddress, edtPrice, edtContact;
         String title, description, address, price, contact;
 
@@ -80,7 +82,7 @@ import java.util.prefs.Preferences;
         user_id = prefs.getInt("user_id", 0);
 
         // Get image url and set image
-        imagePoster.setOnClickListener(new View.OnClickListener() {
+        btnUploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 selectImage();
@@ -163,6 +165,8 @@ import java.util.prefs.Preferences;
             imagePoster = view.findViewById(R.id.post_householder_poster);
 
             btnConfirm = view.findViewById(R.id.post_householder_btn_confirm);
+            btnUploadImage = view.findViewById(R.id.post_householder_btn_upload_poster);
+
         }
 
         final ActivityResultLauncher<Intent> startForMediaPickerResult = registerForActivityResult(
