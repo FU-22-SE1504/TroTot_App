@@ -1,6 +1,5 @@
 package com.example.trotot.Fragment;
 
-import static com.google.android.gms.tasks.Tasks.await;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -40,18 +39,6 @@ import com.example.trotot.R;
 import com.example.trotot.Model.User;
 import com.example.trotot.RegisterActivity;
 import com.github.dhaval2404.imagepicker.ImagePicker;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
-import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -71,17 +58,11 @@ public class EditProfileFragment extends Fragment {
     private View view;
     private CircleImageView imgAvatar;
     private Button btnCancel, btnConfirm;
-    private TextView progressText;
-    private ProgressBar progressBar;
     private EditText edtEmail, edtFullName, edtPhoneNumber, edtUsername;
     private String email, fullName, phoneNumber;
 
     // Data
     User user;
-    //Session
-    SharedPreferences prefs;
-    public static final String PREFERENCE_NAME = "PREFERENCE_DATA";
-    Integer user_id;
     ConnectDatabase connectDatabase;
     Connection connection;
     Statement st;
@@ -91,10 +72,19 @@ public class EditProfileFragment extends Fragment {
     //Image
     private Uri uri;
     Bitmap bitmap;
+    Integer user_id;
     private ProgressDialog progressDialog;
-    private FirebaseStorage firebaseStorage;
-    private StorageReference storageReference;
+//    private FirebaseStorage firebaseStorage;
+//    private StorageReference storageReference;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            user_id = bundle.getInt("user_id", 0);
+        }
+        super.onCreate(savedInstanceState);
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
@@ -102,16 +92,14 @@ public class EditProfileFragment extends Fragment {
         InitView();
 
         // Fetch data
-        prefs = this.getActivity().getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
-        user_id = prefs.getInt("user_id", 0);
 
         getUserData(user_id);
 
         // Handle avatar image change
         imgAvatar.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            selectImage();
+            @Override
+            public void onClick(View view) {
+                selectImage();
             }
         });
 
@@ -119,14 +107,24 @@ public class EditProfileFragment extends Fragment {
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(uri != null || bitmap != null){
+                if (uri != null || bitmap != null) {
                     email = edtEmail.getText().toString();
                     fullName = edtFullName.getText().toString();
                     phoneNumber = edtPhoneNumber.getText().toString();
                     onClickUpdateProfile(uri);
-                }else{
+                } else {
                     Toast.makeText(getActivity(), "Please select image", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        // Handler Cancel update
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.body_container, new ProfileFragment());
+                ft.commit();
             }
         });
         return view;
@@ -142,12 +140,12 @@ public class EditProfileFragment extends Fragment {
             connectDatabase = new ConnectDatabase();
             connection = connectDatabase.ConnectToDatabase();
 
-            if (connection != null){
+            if (connection != null) {
                 String selectQuery = "Select * from [User] where user_id = " + userID;
 
                 st = connection.createStatement();
                 rs = st.executeQuery(selectQuery);
-                if(rs.next()){
+                if (rs.next()) {
                     user = new User(rs.getInt(1), rs.getString(2), rs.getString(3),
                             rs.getString(4), rs.getString(5), rs.getString(6), rs.getDate(7),
                             rs.getInt(8), rs.getString(9));
@@ -183,11 +181,10 @@ public class EditProfileFragment extends Fragment {
 //                    });
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e("Error", e.getMessage());
         }
     }
-
 
 
     private void onClickUpdateProfile(Uri uri) {
@@ -200,7 +197,7 @@ public class EditProfileFragment extends Fragment {
             } catch (Exception e) {
                 Toast.makeText(getActivity(), "Update data fail", Toast.LENGTH_SHORT).show();
             }
-        }else {
+        } else {
             Toast.makeText(getActivity(), "Update fail", Toast.LENGTH_SHORT).show();
         }
 
@@ -238,13 +235,13 @@ public class EditProfileFragment extends Fragment {
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
         byte[] bytes = byteArrayOutputStream.toByteArray();
         String image = Base64.encodeToString(bytes, Base64.DEFAULT);
-        return  image;
+        return image;
     }
 
     private void updateQueryData() throws SQLException {
         connectDatabase = new ConnectDatabase();
         connection = connectDatabase.ConnectToDatabase();
-        if (connection != null){
+        if (connection != null) {
             String avatar = saveImage();
             String queryUpdate = "Update [User] set [email] = '" + email + "', [phone_number] = '" + phoneNumber +
                     "', [full_name] = '" + fullName + "', [avatar] = '" + avatar + "' where user_id = " + user.getUser_id();
@@ -273,23 +270,21 @@ public class EditProfileFragment extends Fragment {
         btnCancel = view.findViewById(R.id.EditProfile_btnCancel);
         imgAvatar = view.findViewById(R.id.EditProfile_AvatarView);
 
-        firebaseStorage = FirebaseStorage.getInstance();
-        storageReference = firebaseStorage.getReference();
+//        firebaseStorage = FirebaseStorage.getInstance();
+//        storageReference = firebaseStorage.getReference();
     }
 
-      final ActivityResultLauncher<Intent> startForMediaPickerResult = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    Intent data = result.getData();
-                    if (data != null && result.getResultCode() == Activity.RESULT_OK) {
-                        uri = data.getData();
-                        imgAvatar.setImageURI(uri);
-                        progressText.setVisibility(View.VISIBLE);
-                        progressBar.setVisibility(View.VISIBLE);
-                    } else {
-                        Toast.makeText(requireActivity(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show();
-                    }
-                });
+    final ActivityResultLauncher<Intent> startForMediaPickerResult = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                Intent data = result.getData();
+                if (data != null && result.getResultCode() == Activity.RESULT_OK) {
+                    uri = data.getData();
+                    imgAvatar.setImageURI(uri);
+                } else {
+                    Toast.makeText(requireActivity(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show();
+                }
+            });
 
     private void selectImage() {
         Intent intent = new Intent();

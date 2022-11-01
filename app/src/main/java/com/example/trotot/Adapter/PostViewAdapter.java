@@ -1,4 +1,4 @@
-package com.example.trotot;
+package com.example.trotot.Adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
