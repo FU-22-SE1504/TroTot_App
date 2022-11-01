@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img_post"
+            android:layout_width="wrap_content"
+            android:layout_height="360dp"
+            android:background="@drawable/ava_1" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="300dp"
+        android:background="@drawable/custom_input">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/title"
+            android:textSize="20dp"
+            android:paddingLeft="20dp"
+            android:text="Nhà trọ Thiên đường"
+            />
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_location"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="25dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:paddingLeft="35dp"
+            android:text="Số 59, Ngô Tất Tố, Bình Thạnh, Thành Phố Hồ Chí Minh" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
+            android:paddingLeft="20dp"
+            android:text="Một nơi đầy đủ tiện nghi và giá cả phải chăng ở khu vực bình thạnh Hồ chí minh, có view ra sông, có phục vụ thức ăn vào buổi sáng cho khác ở qua đêm, có cho thuê xe để khách đi khách có thể tiện đi lại, dịch vụ trông trả cũng được mở 24/24"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="120dp"
+            android:paddingLeft="20dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Preview"
+                android:textSize="20dp">
+            </TextView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/pvr_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                >
+
+            </androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</RelativeLayout>

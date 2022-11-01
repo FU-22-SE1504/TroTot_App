@@ -21,7 +21,7 @@ public class ConnectDatabase {
         username = "sa";
         pass = "123456";
         port = "1433";
-        ip = "10.0.43.182";
+        ip = "192.168.1.75";
         database = "TroTot";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

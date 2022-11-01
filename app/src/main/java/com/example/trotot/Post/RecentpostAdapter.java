@@ -1,0 +1,77 @@
+package com.example.trotot.Post;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+
+import com.example.trotot.Fragment.HomeFragment;
+import com.example.trotot.R;
+
+import java.util.ArrayList;
+
+public class RecentpostAdapter extends RecyclerView.Adapter<RecentpostAdapter.RecentpostViewHolder> {
+
+
+
+    private Context context;
+    private ArrayList<Recentpost> RecentpostData;
+    public RecentpostAdapter(ArrayList<Recentpost> recentpostData, Context context){
+        this.RecentpostData = recentpostData;
+        this.context = context;
+    }
+
+
+
+    @NonNull
+    @Override
+    public RecentpostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        View view = layoutInflater.inflate(R.layout.item_recentpost,parent,false);
+        RecentpostViewHolder viewHolder = new RecentpostViewHolder(view);
+
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecentpostViewHolder holder, int position) {
+        final Recentpost Recentpostlist= RecentpostData.get(position);
+        holder.rp_name.setText(Recentpostlist.getRecentpost_name());
+        holder.rp_location.setText(Recentpostlist.getRecentpost_location());
+        holder.rp_image.setImageResource(Recentpostlist.getRecentpost_img());
+        holder.rp_describe.setText(Recentpostlist.getRecentpost_describe());
+        holder.rp_price.setText(Recentpostlist.getRecentpost_price());
+
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return RecentpostData.size();
+    }
+
+    public class RecentpostViewHolder extends  RecyclerView.ViewHolder{
+        ImageView rp_image;
+        TextView rp_name;
+        TextView rp_location;
+        TextView rp_describe;
+        TextView rp_price;
+
+        public RecentpostViewHolder(@NonNull View itemView) {
+            super(itemView);
+            rp_image = itemView.findViewById(R.id.recentpost_img);
+            rp_name = itemView.findViewById(R.id.recentpost_name);
+            rp_location = itemView.findViewById(R.id.recentpost_location);
+            rp_describe = itemView.findViewById(R.id.recentpost_describe);
+            rp_price = itemView.findViewById(R.id.recentpost_price);
+
+        }
+    }
+
+}
