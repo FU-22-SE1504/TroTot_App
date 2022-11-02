@@ -76,14 +76,14 @@ public class ProfilePostFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
         list = getAllListPost();
-        user = getUserinfor();
+        user = getUserinfo();
         profilePostAdapter = new ProfilePostAdapter(list, getActivity(), user);
         recyclerView.setAdapter(profilePostAdapter);
         if (progressDialog.isShowing())
             progressDialog.dismiss();
     }
 
-    private User getUserinfor() {
+    private User getUserinfo() {
         User user = new User();
         try {
             connectDatabase = new ConnectDatabase();
@@ -99,7 +99,7 @@ public class ProfilePostFragment extends Fragment {
                 }
             }
         }catch (Exception e){
-            Log.e("Eror", "Get User info fail");
+            Log.e("Error", "Get User info fail");
         }
         return user;
     }
