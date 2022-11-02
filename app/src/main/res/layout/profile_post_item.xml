@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/border"
+    android:layout_marginBottom="20dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profile_post_layout_profile"
+            >
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_post_avatarImg"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:paddingRight="15dp"
+                android:src="@drawable/ic_profile" />
+
+            <TextView
+                android:id="@+id/profile_post_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Username" />
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/profile_post_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_delete" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/profile_post_posterImg"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@mipmap/ic_banner"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/profile_post_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Post Title"
+            android:fontFamily="@font/quicksand"
+            android:textSize="25dp"
+            android:textColor="@color/black"
+            />
+
+        <TextView
+            android:id="@+id/profile_post_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand"
+            android:textSize="12dp"
+            android:textColor="@color/primary"
+            android:text="Post Address" />
+
+        <TextView
+            android:id="@+id/profile_post_contact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Contact: Post Contact"
+            android:fontFamily="@font/quicksand"
+            />
+    </LinearLayout>
+
+
+</LinearLayout>
