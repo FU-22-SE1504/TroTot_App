@@ -60,6 +60,8 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<ProfilePostAdapter.
             bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
             // Set image
             holder.posterImg.setImageBitmap(bitmap);
+        }else{
+            holder.posterImg.setVisibility(View.GONE);
         }
 
         if(user.getAvatar() != null){
