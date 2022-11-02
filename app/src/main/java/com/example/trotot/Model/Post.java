@@ -9,9 +9,30 @@ public class Post {
     private String price;
     private int type_id;
     private String poster;
+    private String contact;
+
+    public Post(int post_id, int user_id, String title, String description, String address, String price, int type_id, String poster, String contact) {
+        this.post_id = post_id;
+        this.user_id = user_id;
+        this.title = title;
+        this.description = description;
+        this.address = address;
+        this.price = price;
+        this.type_id = type_id;
+        this.poster = poster;
+        this.contact = contact;
+    }
 
     public int getPost_id() {
         return post_id;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 
     public void setPost_id(int post_id) {
