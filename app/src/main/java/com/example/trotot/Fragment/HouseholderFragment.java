@@ -68,8 +68,6 @@ public class HouseholderFragment extends Fragment {
         listUser = getUserinfo();
         householderAdapter = new HouseholderAdapter(listUser, list, getActivity());
         recyclerView.setAdapter(householderAdapter);
-//        if (progressDialog.isShowing())
-//            progressDialog.dismiss();
     }
 
     private ArrayList<User> getUserinfo() {
