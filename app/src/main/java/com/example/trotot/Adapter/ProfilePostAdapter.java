@@ -32,8 +32,6 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<ProfilePostAdapter.
     Context context;
 
     Bitmap bitmap;
-    int user_id;
-    Uri avatar;
     ProgressDialog progressDialog;
 
     public ProfilePostAdapter(ArrayList<Post> list, Context context, User user) {
@@ -51,9 +49,7 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<ProfilePostAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ProfilePostViewHolder holder, int position) {
-        String description;
         Post post = list.get(position);
-        holder.tv_username.setText(String.valueOf(post.getUser_id()));
         holder.tv_title.setText(subString(post.getTitle(), 20));
         holder.tv_description.setText(subString(post.getDescription(), 100));
         holder.tv_username.setText(user.getUsername());

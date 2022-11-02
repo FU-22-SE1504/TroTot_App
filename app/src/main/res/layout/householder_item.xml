@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/border"
+    android:layout_marginBottom="20dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:gravity="left">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/householder_layout_user_infor"
+            >
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/householder_avatarImg"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:paddingRight="15dp"
+                android:src="@drawable/ic_profile" />
+
+            <TextView
+                android:id="@+id/householder_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Username" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/householder_posterImg"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@mipmap/ic_banner"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/householder_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Post Title"
+            android:fontFamily="@font/quicksand"
+            android:textSize="25dp"
+            android:textColor="@color/black"
+            />
+
+        <TextView
+            android:id="@+id/householder_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand"
+            android:textSize="12dp"
+            android:textColor="@color/ligt_white"
+            android:text="Post Description" />
+
+        <TextView
+            android:id="@+id/householder_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Price"
+            android:drawableLeft="@drawable/ic_price"
+            android:fontFamily="@font/quicksand"
+            />
+    </LinearLayout>
+
+
+</LinearLayout>

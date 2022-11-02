@@ -3,57 +3,51 @@ package com.example.trotot.Fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.trotot.Adapter.HouseholderAdapter;
+import com.example.trotot.Adapter.ProfilePostAdapter;
+import com.example.trotot.Database.ConnectDatabase;
+import com.example.trotot.Model.Post;
+import com.example.trotot.Model.User;
 import com.example.trotot.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HouseholderFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+
 public class HouseholderFragment extends Fragment {
+    // View
+    View view;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    // Data
+    ArrayList<User> listUser;
+    ArrayList<Post> list;
+    int user_id;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    // Connect
+    ConnectDatabase connectDatabase;
+    Connection connection;
+    Statement st;
+    ResultSet rs;
 
-    public HouseholderFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment householderFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HouseholderFragment newInstance(String param1, String param2) {
-        HouseholderFragment fragment = new HouseholderFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    // Recyclerview
+    RecyclerView recyclerView;
+    HouseholderAdapter householderAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            user_id = bundle.getInt("user_id", 0);
         }
     }
 
@@ -61,6 +55,91 @@ public class HouseholderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_householder, container, false);
+        view = inflater.inflate(R.layout.fragment_householder, container, false);
+        displayItem();
+        return view;
+    }
+
+    private void displayItem() {
+        recyclerView = view.findViewById(R.id.householder_recyclerview);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+        list = getAllListPost(1);
+        listUser = getUserinfo();
+        householderAdapter = new HouseholderAdapter(listUser, list, getActivity());
+        recyclerView.setAdapter(householderAdapter);
+//        if (progressDialog.isShowing())
+//            progressDialog.dismiss();
+    }
+
+    private ArrayList<User> getUserinfo() {
+        ArrayList<User> list = new ArrayList<>();
+        int role_id = 1;
+        try {
+            connectDatabase = new ConnectDatabase();
+            connection = connectDatabase.ConnectToDatabase();
+
+            if (connection != null) {
+                // Check username is valid in database
+                String query = "select user_id, username, avatar from [User] where role_id = " + role_id + ";";
+
+                st = connection.createStatement();
+                rs = st.executeQuery(query);
+
+                int i = 0;
+                while (rs.next()) {
+                    User user = new User(
+                            rs.getInt("user_id"),
+                            rs.getString("username"),
+                            rs.getString("avatar")
+                    );
+                    list.add(user);
+                    ++i;
+                }
+            }
+        } catch (Exception e) {
+            Log.e("Error", "Get User info fail");
+        }
+        return list;
+    }
+
+    public ArrayList<Post> getAllListPost(int type_id) {
+        ArrayList<Post> list = new ArrayList<>();
+        try {
+            try {
+                connectDatabase = new ConnectDatabase();
+                connection = connectDatabase.ConnectToDatabase();
+
+                if (connection != null) {
+                    String selectQuery = "Select * from [Post] where type_id = " + type_id + ";";
+
+                    st = connection.createStatement();
+                    rs = st.executeQuery(selectQuery);
+
+                    int i = 0;
+                    while (rs.next()) {
+                        Post post = new Post(
+                                rs.getInt("post_id"),
+                                rs.getInt("user_id"),
+                                rs.getString("title"),
+                                rs.getString("description"),
+                                rs.getString("address"),
+                                rs.getString("price"),
+                                rs.getInt("type_id"),
+                                rs.getString("poster"),
+                                rs.getString("contact"));
+                        list.add(post);
+                        ++i;
+                    }
+                } else {
+                    Log.e("Error: ", "Connect fail");
+                }
+            } catch (Exception ex) {
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }

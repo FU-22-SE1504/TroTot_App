@@ -162,25 +162,6 @@ public class EditProfileFragment extends Fragment {
                     }
                     if (progressDialog.isShowing())
                         progressDialog.dismiss();
-                    // Set image
-//                    String imageID = user.getAvatar();
-//                    StorageReference imageRef = storageReference.child("UserAvatar/" + imageID);
-//                    long MAXBYTES = 1024*1024;
-//                    imageRef.getBytes(MAXBYTES).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-//                        @Override
-//                        public void onSuccess(byte[] bytes) {
-//                            // Convert byte[] to bitmap
-//                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-//                            imgAvatar.setImageBitmap(bitmap);
-//                            if (progressDialog.isShowing())
-//                                progressDialog.dismiss();
-//                        }
-//                    }).addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception e) {
-//                            Toast.makeText(getActivity(), "Fetching fail", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
                 }
             }
         } catch (Exception e) {

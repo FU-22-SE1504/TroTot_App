@@ -17,6 +17,12 @@ public class User {
 
     public User(){}
 
+    public User(int user_id, String username, String avatar) {
+        this.user_id = user_id;
+        this.username = username;
+        this.avatar = avatar;
+    }
+
     public User(String avatar){
         this.avatar = avatar;
     }

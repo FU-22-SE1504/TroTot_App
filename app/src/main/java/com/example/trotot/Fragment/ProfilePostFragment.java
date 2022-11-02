@@ -76,19 +76,19 @@ public class ProfilePostFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
         list = getAllListPost();
-        user = getUserinfor();
+        user = getUserinfo();
         profilePostAdapter = new ProfilePostAdapter(list, getActivity(), user);
         recyclerView.setAdapter(profilePostAdapter);
         if (progressDialog.isShowing())
             progressDialog.dismiss();
     }
 
-    private User getUserinfor() {
+    private User getUserinfo() {
         User user = new User();
         try {
             connectDatabase = new ConnectDatabase();
             connection = connectDatabase.ConnectToDatabase();
-            if(connection != null) {
+            if (connection != null) {
                 // Check username is valid in database
                 String query = "select username, avatar from [User] where user_id = " + user_id + ";";
                 Statement st = connection.createStatement();
@@ -98,8 +98,8 @@ public class ProfilePostFragment extends Fragment {
                     return user;
                 }
             }
-        }catch (Exception e){
-            Log.e("Eror", "Get User info fail");
+        } catch (Exception e) {
+            Log.e("Error", "Get User info fail");
         }
         return user;
     }
@@ -107,36 +107,32 @@ public class ProfilePostFragment extends Fragment {
     public ArrayList<Post> getAllListPost() {
         ArrayList<Post> list = new ArrayList<>();
         try {
-            try {
-                connectDatabase = new ConnectDatabase();
-                connection = connectDatabase.ConnectToDatabase();
+            connectDatabase = new ConnectDatabase();
+            connection = connectDatabase.ConnectToDatabase();
 
-                if (connection != null) {
-                    String selectQuery = "Select * from [Post] where user_id = " + user_id +";";
+            if (connection != null) {
+                String selectQuery = "Select * from [Post] where user_id = " + user_id + ";";
 
-                    st = connection.createStatement();
-                    rs = st.executeQuery(selectQuery);
+                st = connection.createStatement();
+                rs = st.executeQuery(selectQuery);
 
-                    int i = 0;
-                    while (rs.next()) {
-                        Post post = new Post(
-                                rs.getInt("post_id"),
-                                rs.getInt("user_id"),
-                                rs.getString("title"),
-                                rs.getString("description"),
-                                rs.getString("address"),
-                                rs.getString("price"),
-                                rs.getInt("type_id"),
-                                rs.getString("poster"),
-                                rs.getString("contact"));
-                        list.add(post);
-                        ++i;
-                    }
-                } else {
-                    Log.e("Error: ", "Connect fail");
+                int i = 0;
+                while (rs.next()) {
+                    Post post = new Post(
+                            rs.getInt("post_id"),
+                            rs.getInt("user_id"),
+                            rs.getString("title"),
+                            rs.getString("description"),
+                            rs.getString("address"),
+                            rs.getString("price"),
+                            rs.getInt("type_id"),
+                            rs.getString("poster"),
+                            rs.getString("contact"));
+                    list.add(post);
+                    ++i;
                 }
-            } catch (Exception ex) {
-
+            } else {
+                Log.e("Error: ", "Connect fail");
             }
         } catch (Exception e) {
             e.printStackTrace();
