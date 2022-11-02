@@ -18,10 +18,10 @@
             >
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_avatar_image"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="10dp"
                 android:src="@drawable/ic_profile" />
 
             <TextView
@@ -49,7 +49,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/profile_txt_email"
-                android:layout_marginTop="30dp">
+                android:layout_marginTop="10dp"
+                >
 
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="match_parent"
