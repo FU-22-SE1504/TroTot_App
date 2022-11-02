@@ -124,10 +124,12 @@ public class ProfileFragment extends Fragment {
                     txtUsername.setText(user.getUsername());
                     txtEmail.setText(user.getEmail());
                     // Decode image
-                    byte[] bytes = Base64.decode(user.getAvatar(), Base64.DEFAULT);
-                    bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    // Set image
-                    avatarImg.setImageBitmap(bitmap);
+                    if(user.getAvatar() != null){
+                        byte[] bytes = Base64.decode(user.getAvatar(), Base64.DEFAULT);
+                        bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        // Set image
+                        avatarImg.setImageBitmap(bitmap);
+                    }
                     if (progressDialog.isShowing())
                         progressDialog.dismiss();
                 }

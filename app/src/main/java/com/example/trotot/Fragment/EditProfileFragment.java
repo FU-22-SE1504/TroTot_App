@@ -153,11 +153,13 @@ public class EditProfileFragment extends Fragment {
                     edtEmail.setText(user.getEmail());
                     edtPhoneNumber.setText(user.getPhone_number());
                     edtFullName.setText(user.getFull_name());
-                    // Decode image
-                    byte[] bytes = Base64.decode(user.getAvatar(), Base64.DEFAULT);
-                    bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    // Set image
-                    imgAvatar.setImageBitmap(bitmap);
+                    if(user.getAvatar() != null){
+                        // Decode image
+                        byte[] bytes = Base64.decode(user.getAvatar(), Base64.DEFAULT);
+                        bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        // Set image
+                        imgAvatar.setImageBitmap(bitmap);
+                    }
                     if (progressDialog.isShowing())
                         progressDialog.dismiss();
                     // Set image
