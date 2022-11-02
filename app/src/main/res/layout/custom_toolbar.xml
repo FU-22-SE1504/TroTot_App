@@ -19,11 +19,13 @@
             android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lato_regular"
+            android:fontFamily="@font/quicksand"
             android:text="Home Page"
+            android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="20dp"
-            android:textStyle="bold" />
+            android:textStyle="normal" />
+
         <ImageView
             android:id="@+id/btn_Logout"
             android:layout_width="wrap_content"

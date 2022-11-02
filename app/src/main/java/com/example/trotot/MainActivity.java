@@ -54,9 +54,11 @@ public class MainActivity extends AppCompatActivity {
     //Logout
     ImageView btnLogout;
 
+
     //Session
     SharedPreferences prefs;
     public static final String PREFERENCE_NAME = "PREFERENCE_DATA";
+    int user_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         btnLogout = findViewById(R.id.btn_Logout);
 
         // Get user id form session
-        int user_id = prefs.getInt("user_id", 0);
+        user_id = prefs.getInt("user_id", 0);
 
         // Set visible button logout
         if(user_id == 0){
@@ -110,6 +112,9 @@ public class MainActivity extends AppCompatActivity {
                 int user_id = prefs.getInt("user_id", 0);
                 String selectedItem = null;
                 Fragment fragment = new HomeFragment();
+                // Pass user id to edit profile screen
+                Bundle bundle = new Bundle();
+                bundle.putInt("user_id", user_id);
                 switch (item.getItemId()){
                     case R.id.nav_customer:
                         headerTitle = "Customer Page";
@@ -133,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     default:
                         if(user_id == 0){
-
                             startActivity(new Intent(MainActivity.this,LoginActivity.class));
                         }else{
                             headerTitle = "User Profile";
@@ -143,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 toolbarTitle.setText(headerTitle);
                 // Change activity
+                fragment.setArguments(bundle);
                 getSupportFragmentManager().beginTransaction().replace(R.id.body_container, fragment).commit();
                 return true;
             }
