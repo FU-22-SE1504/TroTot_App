@@ -10,17 +10,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
         android:paddingLeft="20dp"
+        android:paddingTop="10dp"
         android:paddingRight="20dp"
-        android:gravity="left">
+        android:paddingBottom="10dp">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/householder_layout_user_infor"
-            >
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/householder_avatarImg"
                 android:layout_width="35dp"
@@ -36,6 +35,14 @@
                 android:text="Username" />
 
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/householder_btn_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_arrow" />
 
     </RelativeLayout>
 

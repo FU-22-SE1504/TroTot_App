@@ -1,6 +1,8 @@
 package com.example.trotot.Model;
 
-public class Post {
+import java.io.Serializable;
+
+public class Post implements Serializable {
     private int post_id;
     private int user_id;
     private String title;

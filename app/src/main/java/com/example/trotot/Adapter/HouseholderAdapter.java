@@ -1,9 +1,12 @@
 package com.example.trotot.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,8 +17,15 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.trotot.Fragment.HomeFragment;
+import com.example.trotot.Fragment.PostDetailFragment;
+import com.example.trotot.LoginActivity;
+import com.example.trotot.MainActivity;
 import com.example.trotot.Model.Post;
 import com.example.trotot.Model.User;
 import com.example.trotot.R;
@@ -30,6 +40,11 @@ public class HouseholderAdapter extends RecyclerView.Adapter<HouseholderAdapter.
     ArrayList<Post> list;
     Context context;
     Bitmap bitmap;
+
+    //Session
+    SharedPreferences prefs;
+    public static final String PREFERENCE_NAME = "PREFERENCE_DATA";
+    Integer user_id;
 
     public HouseholderAdapter(ArrayList<User> listUser, ArrayList<Post> list, Context context) {
         this.listUser = listUser;
@@ -70,6 +85,13 @@ public class HouseholderAdapter extends RecyclerView.Adapter<HouseholderAdapter.
         }
 
         holder.tv_Username.setText(user.getUsername());
+
+        holder.btnDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickDetailPost(post, view);
+            }
+        });
     }
 
     @Override
@@ -79,7 +101,7 @@ public class HouseholderAdapter extends RecyclerView.Adapter<HouseholderAdapter.
 
     public class HouseholderViewHolder extends RecyclerView.ViewHolder{
         CircleImageView avatarImg;
-        ImageView posterImg;
+        ImageView posterImg, btnDetail;
         TextView tv_Username, tv_Title, tv_Description, tv_Price;
 
         public HouseholderViewHolder(@NonNull View itemView) {
@@ -91,6 +113,7 @@ public class HouseholderAdapter extends RecyclerView.Adapter<HouseholderAdapter.
             tv_Price = itemView.findViewById(R.id.householder_price);
 
             avatarImg = itemView.findViewById(R.id.householder_avatarImg);
+            btnDetail = itemView.findViewById(R.id.householder_btn_detail);
             posterImg = itemView.findViewById(R.id.householder_posterImg);
         }
     }
@@ -104,5 +127,21 @@ public class HouseholderAdapter extends RecyclerView.Adapter<HouseholderAdapter.
             tmp = text;
         }
         return tmp;
+    }
+
+    public void onClickDetailPost(Post post, View view){
+        // Get id by session
+        prefs = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+        user_id = prefs.getInt("user_id", 0);
+        if (user_id != 0){
+            Fragment fragment = new PostDetailFragment();
+            AppCompatActivity appCompatActivity = (AppCompatActivity) view.getContext();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("Post_Detail", post);
+            fragment.setArguments(bundle);
+            appCompatActivity.getSupportFragmentManager().beginTransaction().replace(R.id.body_container, fragment).commit();
+        }else {
+            context.startActivity(new Intent(context, LoginActivity.class));
+        }
     }
 }
