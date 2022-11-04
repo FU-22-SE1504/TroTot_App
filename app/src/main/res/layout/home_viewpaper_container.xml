@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:layout_margin="10dp"
     app:cardCornerRadius="12dp"
+    android:id="@+id/home_post_cardView"
     app:cardElevation="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
