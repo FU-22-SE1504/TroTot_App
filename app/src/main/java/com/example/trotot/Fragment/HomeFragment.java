@@ -2,7 +2,12 @@ package com.example.trotot.Fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.CompositePageTransformer;
+import androidx.viewpager2.widget.MarginPageTransformer;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,72 +17,112 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.trotot.Adapter.CustomerAdapter;
+import com.example.trotot.Adapter.RecommendPostAdapter;
 import com.example.trotot.Database.ConnectDatabase;
+import com.example.trotot.Model.Post;
+import com.example.trotot.Model.User;
 import com.example.trotot.R;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class HomeFragment extends Fragment {
 
+    // View
+    View view;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    // Data
+    ArrayList<Post> list;
+    int user_id;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    // Connect
     ConnectDatabase connectDatabase;
-    Button connect;
+    Connection connection;
+    Statement st;
+    ResultSet rs;
 
-    public HomeFragment() {
-        // Required empty public constructor
-    }
+    // Recyclerview
+    RecyclerView recyclerView;
+    CustomerAdapter customerAdapter;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    public String title, imgUrl, imgAvatar, imgPostAvatar, address, postUsername;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
-
+        view = inflater.inflate(R.layout.fragment_home, container, false);
+        displayItem();
+        return view;
     }
 
+    private void displayItem() {
+        ViewPager2 viewPager2 = view.findViewById(R.id.home_viewPaper2);
+        list = getAllListPost(1);
+        viewPager2.setAdapter(new RecommendPostAdapter(list, getActivity()));
 
+        viewPager2.setClipToPadding(false);
+        viewPager2.setClipChildren(false);
+        viewPager2.setOffscreenPageLimit(3);
+        viewPager2.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
 
+        CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
+        compositePageTransformer.addTransformer(new MarginPageTransformer(40));
+        compositePageTransformer.addTransformer(new ViewPager2.PageTransformer() {
+            @Override
+            public void transformPage(@NonNull View page, float position) {
+                float r = 1 - Math.abs(position);
+                page.setScaleY(0.95f + r * 0.05f);
+            }
+        });
+
+        viewPager2.setPageTransformer(compositePageTransformer);
+    }
+
+    public ArrayList<Post> getAllListPost(int type_id) {
+        ArrayList<Post> list = new ArrayList<>();
+        try {
+            try {
+                connectDatabase = new ConnectDatabase();
+                connection = connectDatabase.ConnectToDatabase();
+
+                if (connection != null) {
+                    String selectQuery = "select top 3 * from Post where type_id = " + type_id + " order by create_at desc;";
+
+                    st = connection.createStatement();
+                    rs = st.executeQuery(selectQuery);
+
+                    int i = 0;
+                    while (rs.next()) {
+                        Post post = new Post(
+                                rs.getInt("post_id"),
+                                rs.getInt("user_id"),
+                                rs.getString("title"),
+                                rs.getString("description"),
+                                rs.getString("address"),
+                                rs.getString("price"),
+                                rs.getInt("type_id"),
+                                rs.getString("poster"),
+                                rs.getString("contact"));
+                        list.add(post);
+                        ++i;
+                    }
+                } else {
+                    Log.e("Error: ", "Connect fail");
+                }
+            } catch (Exception ex) {
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }
