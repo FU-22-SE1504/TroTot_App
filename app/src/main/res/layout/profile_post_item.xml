@@ -69,6 +69,8 @@
         android:padding="10dp"
         android:orientation="vertical">
         <TextView
+            android:ellipsize="end"
+            android:maxLines="1"
             android:id="@+id/profile_post_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,6 +81,8 @@
             />
 
         <TextView
+            android:ellipsize="end"
+            android:maxLines="1"
             android:id="@+id/profile_post_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -88,6 +92,8 @@
             android:text="Post Address" />
 
         <TextView
+            android:ellipsize="end"
+            android:maxLines="1"
             android:id="@+id/profile_post_contact"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
