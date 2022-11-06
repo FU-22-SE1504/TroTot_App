@@ -36,6 +36,7 @@ import com.example.trotot.Fragment.HomeFragment;
 import com.example.trotot.Fragment.HouseholderFragment;
 import com.example.trotot.Fragment.PostFragment;
 import com.example.trotot.Fragment.ProfileFragment;
+import com.example.trotot.Model.Post;
 import com.example.trotot.Model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -43,6 +44,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -60,6 +62,10 @@ public class MainActivity extends AppCompatActivity {
 
     // Data
     User user;
+    ArrayList<Post> listCustomerPost;
+    ArrayList<Post> listHouseholderPost;
+    ArrayList<Post> listRecommendPost;
+    ArrayList<User> listUser;
 
     // Connection
     ConnectDatabase connectDatabase;
@@ -71,6 +77,13 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences prefs;
     public static final String PREFERENCE_NAME = "PREFERENCE_DATA";
     int user_id;
+    int householderType = 1;
+    int customerType = 2;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +108,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Get user id form session
         user_id = prefs.getInt("user_id", 0);
+        listUser = getListUser();
+        listCustomerPost = getAllListPost(customerType);
+        listHouseholderPost = getAllListPost(householderType);
+        listRecommendPost = getAllListPost(householderType);
 
         // Set visible button logout
         if(user_id == 0){
@@ -130,14 +147,19 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()){
                     case R.id.nav_customer:
                         headerTitle = "Customer Page";
+                        bundle.putSerializable("List_CustomerPost", listCustomerPost);
+                        bundle.putSerializable("List_UserInfo", listUser);
                         fragment = new CustomerFragment();
                         break;
                     case R.id.nav_householder:
                         headerTitle = "Householder Page";
+                        bundle.putSerializable("List_HouseholderPost", listHouseholderPost);
+                        bundle.putSerializable("List_UserInfo", listUser);
                         fragment = new HouseholderFragment();
                         break;
                     case R.id.nav_home:
                         headerTitle = "Home Page";
+                        bundle.putSerializable("List_RecommendPost", listRecommendPost);
                         fragment = new HomeFragment();
                         break;
                     case R.id.nav_addpost:
@@ -190,5 +212,116 @@ public class MainActivity extends AppCompatActivity {
             Log.e("Error", e.getMessage());
         }
         return null;
+    }
+
+    public ArrayList<Post> getAllListPost(int type_id) {
+        ArrayList<Post> list = new ArrayList<>();
+        try {
+            try {
+                connectDatabase = new ConnectDatabase();
+                connection = connectDatabase.ConnectToDatabase();
+
+                if (connection != null) {
+                    String selectQuery = "Select * from [Post] where type_id = " + type_id + ";";
+
+                    st = connection.createStatement();
+                    rs = st.executeQuery(selectQuery);
+
+                    int i = 0;
+                    while (rs.next()) {
+                        Post post = new Post(
+                                rs.getInt("post_id"),
+                                rs.getInt("user_id"),
+                                rs.getString("title"),
+                                rs.getString("description"),
+                                rs.getString("address"),
+                                rs.getString("price"),
+                                rs.getInt("type_id"),
+                                rs.getString("poster"),
+                                rs.getString("contact"));
+                        list.add(post);
+                        ++i;
+                    }
+                } else {
+                    Log.e("Error: ", "Connect fail");
+                }
+            } catch (Exception ex) {
+                Log.e("Error", ex.getMessage());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    private ArrayList<User> getListUser() {
+        ArrayList<User> list = new ArrayList<>();
+        int role_id = 1;
+        try {
+            connectDatabase = new ConnectDatabase();
+            connection = connectDatabase.ConnectToDatabase();
+
+            if (connection != null) {
+                // Check username is valid in database
+                String query = "select user_id, username, avatar from [User] where role_id = " + role_id + ";";
+
+                st = connection.createStatement();
+                rs = st.executeQuery(query);
+
+                int i = 0;
+                while (rs.next()) {
+                    User user = new User(
+                            rs.getInt("user_id"),
+                            rs.getString("username"),
+                            rs.getString("avatar")
+                    );
+                    list.add(user);
+                    ++i;
+                }
+            }
+        } catch (Exception e) {
+            Log.e("Error", "Get User info fail");
+        }
+        return list;
+    }
+
+    public ArrayList<Post> getRecommendPost(int type_id) {
+        ArrayList<Post> list = new ArrayList<>();
+        try {
+            try {
+                connectDatabase = new ConnectDatabase();
+                connection = connectDatabase.ConnectToDatabase();
+
+                if (connection != null) {
+                    String selectQuery = "Select top 3 * from [Post] where type_id = " + type_id + " order by create_at desc";
+
+                    st = connection.createStatement();
+                    rs = st.executeQuery(selectQuery);
+
+                    int i = 0;
+                    while (rs.next()) {
+                        Post post = new Post(
+                                rs.getInt("post_id"),
+                                rs.getInt("user_id"),
+                                rs.getString("title"),
+                                rs.getString("description"),
+                                rs.getString("address"),
+                                rs.getString("price"),
+                                rs.getInt("type_id"),
+                                rs.getString("poster"),
+                                rs.getString("contact"));
+                        list.add(post);
+                        ++i;
+                    }
+                } else {
+                    Log.e("Error: ", "Connect fail");
+                }
+            } catch (Exception ex) {
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }
