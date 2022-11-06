@@ -9,12 +9,15 @@ import androidx.fragment.app.Fragment;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,6 +36,7 @@ import com.example.trotot.Fragment.HomeFragment;
 import com.example.trotot.Fragment.HouseholderFragment;
 import com.example.trotot.Fragment.PostFragment;
 import com.example.trotot.Fragment.ProfileFragment;
+import com.example.trotot.Model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.sql.Connection;
@@ -54,6 +58,14 @@ public class MainActivity extends AppCompatActivity {
     //Logout
     ImageView btnLogout;
 
+    // Data
+    User user;
+
+    // Connection
+    ConnectDatabase connectDatabase;
+    Connection connection;
+    Statement st;
+    ResultSet rs;
 
     //Session
     SharedPreferences prefs;
@@ -141,6 +153,8 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(new Intent(MainActivity.this,LoginActivity.class));
                         }else{
                             headerTitle = "User Profile";
+                            User user = getUserInfo(user_id);
+                            bundle.putSerializable("User_Info", user);
                             fragment = new ProfileFragment();
                         }
                         break;
@@ -152,8 +166,29 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
     }
 
+    private User getUserInfo(int user_id) {
+        try {
+            User getUser = new User();
+            connectDatabase = new ConnectDatabase();
+            connection = connectDatabase.ConnectToDatabase();
 
+            if (connection != null){
+                String selectQuery = "Select * from [User] where user_id = " + user_id;
+
+                st = connection.createStatement();
+                rs = st.executeQuery(selectQuery);
+                if(rs.next()){
+                    getUser = new User(rs.getInt(1), rs.getString(2), rs.getString(3),
+                            rs.getString(4), rs.getString(5), rs.getString(6), rs.getDate(7),
+                            rs.getInt(8), rs.getString(9));
+                }
+            }
+            return getUser;
+        }catch (Exception e){
+            Log.e("Error", e.getMessage());
+        }
+        return null;
+    }
 }
