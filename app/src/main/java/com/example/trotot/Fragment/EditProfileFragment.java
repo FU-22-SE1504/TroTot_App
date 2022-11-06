@@ -35,6 +35,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.trotot.Database.ConnectDatabase;
+import com.example.trotot.Model.Post;
 import com.example.trotot.R;
 import com.example.trotot.Model.User;
 import com.example.trotot.RegisterActivity;
@@ -82,7 +83,9 @@ public class EditProfileFragment extends Fragment {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             user_id = bundle.getInt("user_id", 0);
+            user = (User) bundle.get("User_Edit");
         }
+
         super.onCreate(savedInstanceState);
     }
 
@@ -92,9 +95,17 @@ public class EditProfileFragment extends Fragment {
         InitView();
 
         // Fetch data
-
-        getUserData(user_id);
-
+        edtUsername.setText(user.getUsername());
+        edtEmail.setText(user.getEmail());
+        edtPhoneNumber.setText(user.getPhone_number());
+        edtFullName.setText(user.getFull_name());
+        if (user.getAvatar() != null) {
+            // Decode image
+            byte[] bytes = Base64.decode(user.getAvatar(), Base64.DEFAULT);
+            bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            // Set image
+            imgAvatar.setImageBitmap(bitmap);
+        }
         // Handle avatar image change
         imgAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,47 +140,6 @@ public class EditProfileFragment extends Fragment {
         });
         return view;
     }
-
-    private void getUserData(int userID) {
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Fetching data...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-
-        try {
-            connectDatabase = new ConnectDatabase();
-            connection = connectDatabase.ConnectToDatabase();
-
-            if (connection != null) {
-                String selectQuery = "Select * from [User] where user_id = " + userID;
-
-                st = connection.createStatement();
-                rs = st.executeQuery(selectQuery);
-                if (rs.next()) {
-                    user = new User(rs.getInt(1), rs.getString(2), rs.getString(3),
-                            rs.getString(4), rs.getString(5), rs.getString(6), rs.getDate(7),
-                            rs.getInt(8), rs.getString(9));
-                    edtUsername.setText(user.getUsername());
-                    edtEmail.setText(user.getEmail());
-                    edtPhoneNumber.setText(user.getPhone_number());
-                    edtFullName.setText(user.getFull_name());
-                    if(user.getAvatar() != null){
-                        // Decode image
-                        byte[] bytes = Base64.decode(user.getAvatar(), Base64.DEFAULT);
-                        bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                        // Set image
-                        imgAvatar.setImageBitmap(bitmap);
-                    }
-                    if (progressDialog.isShowing())
-                        progressDialog.dismiss();
-                }
-            }
-        } catch (Exception e) {
-            Log.e("Error", e.getMessage());
-        }
-    }
-
-
     private void onClickUpdateProfile(Uri uri) {
         if (validationUpdateProfile(email, fullName, phoneNumber)) {
             progressDialog = new ProgressDialog(getContext());
@@ -183,30 +153,6 @@ public class EditProfileFragment extends Fragment {
         } else {
             Toast.makeText(getActivity(), "Update fail", Toast.LENGTH_SHORT).show();
         }
-
-//        String fileExtension = GetFileExtension(uri);
-//        storageReference = FirebaseStorage.getInstance().getReference("UserAvatar/" + "Avatar_userID_" + user.getUser_id() + fileExtension);
-//        storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                if (progressDialog.isShowing())
-//                    progressDialog.dismiss();
-//                try {
-//                    updateQueryData();
-//                } catch (SQLException e) {
-//                    e.printStackTrace();
-//                }
-//                Toast.makeText(getActivity(), "Successfully Uploaded", Toast.LENGTH_SHORT).show();
-//
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                if(progressDialog.isShowing())
-//                    progressDialog.dismiss();
-//                Toast.makeText(getActivity(), "Failed to Upload", Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 
     // Encode image uri to byte array
@@ -236,13 +182,6 @@ public class EditProfileFragment extends Fragment {
         }
     }
 
-//    //Get image extension
-//    private String getFileExtension(Uri mUri){
-//        ContentResolver cr = getContext().getContentResolver();
-//        MimeTypeMap mine = MimeTypeMap.getSingleton();
-//        return mine.getExtensionFromMimeType(cr.getType(mUri));
-//    }
-
     public void InitView() {
         edtUsername = view.findViewById(R.id.EditProfile_Username);
         edtEmail = view.findViewById(R.id.EditProfile_Email);
@@ -252,9 +191,6 @@ public class EditProfileFragment extends Fragment {
         btnConfirm = view.findViewById(R.id.EditProfile_btnConfirm);
         btnCancel = view.findViewById(R.id.EditProfile_btnCancel);
         imgAvatar = view.findViewById(R.id.EditProfile_AvatarView);
-
-//        firebaseStorage = FirebaseStorage.getInstance();
-//        storageReference = firebaseStorage.getReference();
     }
 
     final ActivityResultLauncher<Intent> startForMediaPickerResult = registerForActivityResult(

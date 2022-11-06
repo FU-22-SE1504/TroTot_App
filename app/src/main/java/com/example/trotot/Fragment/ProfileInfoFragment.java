@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -18,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.trotot.Database.ConnectDatabase;
+import com.example.trotot.Model.Post;
 import com.example.trotot.Model.User;
 import com.example.trotot.R;
 
@@ -44,6 +47,16 @@ public class ProfileInfoFragment extends Fragment {
     Connection connection;
     Statement st;
     ResultSet rs;
+    Bundle bundle;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        bundle = this.getArguments();
+        if (bundle != null){
+            user =  (User) bundle.get("User_Info");
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,7 +82,7 @@ public class ProfileInfoFragment extends Fragment {
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                handleEditProfile();
+                handleEditProfile(user);
             }
         });
 
@@ -117,9 +130,13 @@ public class ProfileInfoFragment extends Fragment {
         edtPhoneNumber = view.findViewById(R.id.profile_info_phoneNumber);
     }
 
-    private void handleEditProfile() {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.body_container, editProfileFragment);
-        ft.commit();
+    private void handleEditProfile(User user) {
+        Fragment fragment = new EditProfileFragment();
+        AppCompatActivity appCompatActivity = (AppCompatActivity) view.getContext();
+        bundle = new Bundle();
+        bundle.putSerializable("User_Edit", user);
+        fragment.setArguments(bundle);
+        appCompatActivity.getSupportFragmentManager().beginTransaction().replace(R.id.body_container, fragment).commit();
+
     }
 }
