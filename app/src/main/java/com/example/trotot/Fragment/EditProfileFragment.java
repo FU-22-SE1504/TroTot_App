@@ -75,8 +75,6 @@ public class EditProfileFragment extends Fragment {
     Bitmap bitmap;
     Integer user_id;
     private ProgressDialog progressDialog;
-//    private FirebaseStorage firebaseStorage;
-//    private StorageReference storageReference;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
