@@ -10,26 +10,24 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
         android:paddingLeft="20dp"
+        android:paddingTop="10dp"
         android:paddingRight="20dp"
-        android:gravity="center">
+        android:paddingBottom="10dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/customer_layout_profile"
-            >
+            android:layout_height="wrap_content">
+
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/customer_avatarImg"
+                android:id="@+id/list_all_post_avatarImg"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:paddingRight="15dp"
                 android:src="@drawable/ic_profile" />
 
             <TextView
-                android:id="@+id/customer_username"
+                android:id="@+id/list_all_post_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -37,20 +35,22 @@
 
         </LinearLayout>
 
-
         <ImageView
-            android:id="@+id/customer_arrow"
+            android:id="@+id/list_all_post_btnDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_arrow" />
+
     </RelativeLayout>
 
-    <View
-        android:layout_height="1dp"
+    <ImageView
+        android:id="@+id/list_all_post_posterImg"
         android:layout_width="match_parent"
-        android:background="@color/ligt_white"/>
+        android:layout_height="200dp"
+        android:src="@mipmap/ic_banner"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -58,26 +58,38 @@
         android:padding="10dp"
         android:orientation="vertical">
         <TextView
-            android:id="@+id/customer_title"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:id="@+id/list_all_post_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Post Title"
-            android:ellipsize="end"
-            android:maxLines="1"
             android:fontFamily="@font/quicksand"
             android:textSize="25dp"
             android:textColor="@color/black"
             />
 
         <TextView
-            android:id="@+id/customer_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
+            android:id="@+id/list_all_post_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/quicksand"
             android:textSize="12dp"
+            android:textColor="@color/ligt_white"
             android:text="Post Description" />
+
+        <TextView
+            android:id="@+id/list_all_post_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Price"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:drawableLeft="@drawable/ic_price"
+            android:fontFamily="@font/quicksand"
+            />
     </LinearLayout>
 
 
