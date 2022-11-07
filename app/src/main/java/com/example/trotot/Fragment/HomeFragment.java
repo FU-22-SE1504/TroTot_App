@@ -1,27 +1,25 @@
 package com.example.trotot.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-
 import com.example.trotot.Adapter.CustomerAdapter;
+import com.example.trotot.Adapter.RecentPostAdapter;
 import com.example.trotot.Adapter.RecommendPostAdapter;
 import com.example.trotot.Database.ConnectDatabase;
 import com.example.trotot.Model.Post;
-import com.example.trotot.Model.User;
 import com.example.trotot.R;
 
 import java.sql.Connection;
@@ -36,6 +34,7 @@ public class HomeFragment extends Fragment {
 
     // Data
     ArrayList<Post> list;
+    ArrayList<Post> recentList;
     int user_id;
 
     // Connect
@@ -66,6 +65,7 @@ public class HomeFragment extends Fragment {
     private void displayItem() {
         ViewPager2 viewPager2 = view.findViewById(R.id.home_viewPaper2);
         list = getAllListPost(1);
+        recentList= getRecentPostList();
         viewPager2.setAdapter(new RecommendPostAdapter(list, getActivity()));
 
         viewPager2.setClipToPadding(false);
@@ -124,5 +124,56 @@ public class HomeFragment extends Fragment {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public ArrayList<Post> getRecentPostList() {
+        ArrayList<Post> list = new ArrayList<>();
+        try {
+            try {
+                connectDatabase = new ConnectDatabase();
+                connection = connectDatabase.ConnectToDatabase();
+
+                if (connection != null) {
+                    String selectQuery = "select top 3 * from Post  order by post_id desc;";
+
+                    st = connection.createStatement();
+                    rs = st.executeQuery(selectQuery);
+
+                    int i = 0;
+                    while (rs.next()) {
+                        Post post = new Post(
+                                rs.getInt("post_id"),
+                                rs.getInt("user_id"),
+                                rs.getString("title"),
+                                rs.getString("description"),
+                                rs.getString("address"),
+                                rs.getString("price"),
+                                rs.getInt("type_id"),
+                                rs.getString("poster"),
+                                rs.getString("contact"));
+                        list.add(post);
+                        ++i;
+                    }
+                } else {
+                    Log.e("Error: ", "Connect fail");
+                }
+            } catch (Exception ex) {
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        recyclerView = view.findViewById(R.id.rcv_rcpost);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        recyclerView.setHasFixedSize(true);
+        RecentPostAdapter recentpostAdapter = new RecentPostAdapter(recentList, getContext());
+        recyclerView.setAdapter(recentpostAdapter);
+        recentpostAdapter.notifyDataSetChanged();
     }
 }
