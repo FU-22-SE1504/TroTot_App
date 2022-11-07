@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,8 +16,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.trotot.Fragment.ProfileEditPostFragment;
 import com.example.trotot.Model.Post;
 import com.example.trotot.Model.User;
 import com.example.trotot.R;
@@ -70,6 +74,19 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<ProfilePostAdapter.
             // Set image
             holder.avatarImg.setImageBitmap(bitmap);
         }
+
+        // Edit post
+        holder.btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment = new ProfileEditPostFragment();
+                Bundle bundle = new Bundle();
+                AppCompatActivity appCompatActivity = (AppCompatActivity) view.getContext();
+                bundle.putSerializable("Post_Edit", post);
+                fragment.setArguments(bundle);
+                appCompatActivity.getSupportFragmentManager().beginTransaction().replace(R.id.body_container, fragment).addToBackStack(null).commit()    ;
+            }
+        });
     }
 
     @Override
@@ -81,7 +98,7 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<ProfilePostAdapter.
     public class ProfilePostViewHolder extends RecyclerView.ViewHolder{
         TextView tv_username, tv_title, tv_description, tv_contact;
         CircleImageView avatarImg;
-        ImageView posterImg, btnDelete;
+        ImageView posterImg, btnDelete, btnEdit;
 
         public ProfilePostViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -95,6 +112,7 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<ProfilePostAdapter.
             posterImg = itemView.findViewById(R.id.profile_post_posterImg);
 
             btnDelete = itemView.findViewById(R.id.profile_post_delete);
+            btnEdit = itemView.findViewById(R.id.profile_post_edit);
         }
     }
 }

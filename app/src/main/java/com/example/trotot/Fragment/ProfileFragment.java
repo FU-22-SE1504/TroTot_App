@@ -40,7 +40,10 @@ public class ProfileFragment extends Fragment {
     TextView txtUsername, txtEmail;
     TabLayout tabLayout;
     ViewPager2 viewPager2;
+    String username, email;
+    private Uri uri;
     Bitmap bitmap;
+    private ProgressDialog progressDialog;
     ProfileViewAdapter postViewAdapter;
 
     //Session
@@ -48,14 +51,11 @@ public class ProfileFragment extends Fragment {
     public static final String PREFERENCE_NAME = "PREFERENCE_DATA";
     Integer user_id;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            user = (User) bundle.get("User_Info");
-        }
-    }
+    // Connection
+    ConnectDatabase connectDatabase;
+    Connection connection;
+    Statement st;
+    ResultSet rs;
 
     @Nullable
     @Override
@@ -68,16 +68,8 @@ public class ProfileFragment extends Fragment {
         // Init view
         InitView();
 
-        // Set data
-        txtUsername.setText(user.getUsername());
-        txtEmail.setText(user.getEmail());
-        // Decode image
-        if(user.getAvatar() != null){
-            byte[] bytes = Base64.decode(user.getAvatar(), Base64.DEFAULT);
-            bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-            // Set image
-            avatarImg.setImageBitmap(bitmap);
-        }
+        // Fetch data
+        getUserInfo(user_id);
 
         postViewAdapter = new ProfileViewAdapter(getActivity());
         viewPager2.setAdapter(postViewAdapter);
@@ -110,6 +102,43 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    private void getUserInfo(int user_id) {
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Fetching data...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        try {
+            connectDatabase = new ConnectDatabase();
+            connection = connectDatabase.ConnectToDatabase();
+
+            if (connection != null){
+                String selectQuery = "Select * from [User] where user_id = " + user_id;
+
+                st = connection.createStatement();
+                rs = st.executeQuery(selectQuery);
+                if(rs.next()){
+                    user = new User(rs.getInt(1), rs.getString(2), rs.getString(3),
+                            rs.getString(4), rs.getString(5), rs.getString(6), rs.getDate(7),
+                            rs.getInt(8), rs.getString(9));
+                    txtUsername.setText(user.getUsername());
+                    txtEmail.setText(user.getEmail());
+                    // Decode image
+                    if(user.getAvatar() != null){
+                        byte[] bytes = Base64.decode(user.getAvatar(), Base64.DEFAULT);
+                        bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        // Set image
+                        avatarImg.setImageBitmap(bitmap);
+                    }
+                    if (progressDialog.isShowing())
+                        progressDialog.dismiss();
+                }
+            }
+        }catch (Exception e){
+            Log.e("Error", e.getMessage());
+        }
+    }
+
     private void InitView() {
         avatarImg = view.findViewById(R.id.profile_avatar_image);
 
@@ -119,4 +148,6 @@ public class ProfileFragment extends Fragment {
         tabLayout = view.findViewById(R.id.profile_tab_layout);
         viewPager2 = view.findViewById(R.id.profile_view_paper);
     }
+
+
 }
