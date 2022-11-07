@@ -133,13 +133,17 @@ public class EditProfileFragment extends Fragment {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.body_container, new ProfileFragment());
-                ft.commit();
+                Fragment fragment = new ProfileFragment();
+                // Pass user id to edit profile screen
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("User_Info", user);
+                fragment.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.body_container, fragment).commit();
             }
         });
         return view;
     }
+
     private void onClickUpdateProfile(Uri uri) {
         if (validationUpdateProfile(email, fullName, phoneNumber)) {
             progressDialog = new ProgressDialog(getContext());
