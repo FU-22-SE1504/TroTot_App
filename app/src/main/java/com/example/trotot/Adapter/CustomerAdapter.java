@@ -61,8 +61,8 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.Custom
         Post post = list.get(position);
         // Get user by user id
         User user = listUser.stream().filter(a -> a.getUser_id() == post.getUser_id()).collect(Collectors.toList()).get(0);
-        holder.tv_Title.setText(subString(post.getTitle(), 25));
-        holder.tv_Description.setText(subString(post.getDescription(), 110));
+        holder.tv_Title.setText(post.getTitle());
+        holder.tv_Description.setText(post.getDescription());
 
         //Avatar
         if(user.getAvatar() != null){
@@ -102,17 +102,6 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.Custom
 
             btnDetail = itemView.findViewById(R.id.customer_arrow);
         }
-    }
-
-    public String subString(String text, int length) {
-        String tmp = text;
-        if (tmp.length() > length) {
-            tmp = tmp.substring(0, length);
-            tmp += "...";
-        } else {
-            tmp = text;
-        }
-        return tmp;
     }
 
     public void onClickDetailPost(Post post, View view){

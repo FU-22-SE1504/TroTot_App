@@ -2,9 +2,10 @@ package com.example.trotot.Model;
 
 import org.w3c.dom.Text;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
+public class User implements Serializable {
     private int user_id;
     private String username;
     private String password;

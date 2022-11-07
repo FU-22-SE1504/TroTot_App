@@ -50,8 +50,8 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<ProfilePostAdapter.
     @Override
     public void onBindViewHolder(@NonNull ProfilePostViewHolder holder, int position) {
         Post post = list.get(position);
-        holder.tv_title.setText(subString(post.getTitle(), 20));
-        holder.tv_description.setText(subString(post.getDescription(), 100));
+        holder.tv_title.setText(post.getTitle());
+        holder.tv_description.setText(post.getDescription());
         holder.tv_username.setText(user.getUsername());
         holder.tv_contact.setText("Contact: " + post.getContact());
         // Decode image
@@ -96,16 +96,5 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<ProfilePostAdapter.
 
             btnDelete = itemView.findViewById(R.id.profile_post_delete);
         }
-    }
-
-    public String subString(String text, int length){
-        String tmp = text;
-        if(tmp.length() > length){
-            tmp = tmp.substring(0, length);
-            tmp += "...";
-        }else{
-            tmp = text;
-        }
-        return tmp;
     }
 }

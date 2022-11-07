@@ -32,12 +32,6 @@ public class HouseholderFragment extends Fragment {
     ArrayList<Post> list;
     int user_id;
 
-    // Connect
-    ConnectDatabase connectDatabase;
-    Connection connection;
-    Statement st;
-    ResultSet rs;
-
     // Recyclerview
     RecyclerView recyclerView;
     HouseholderAdapter householderAdapter;
@@ -48,6 +42,8 @@ public class HouseholderFragment extends Fragment {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             user_id = bundle.getInt("user_id", 0);
+            list = (ArrayList<Post>) bundle.get("List_HouseholderPost");
+            listUser = (ArrayList<User>) bundle.get("List_UserInfo");
         }
     }
 
@@ -64,80 +60,7 @@ public class HouseholderFragment extends Fragment {
         recyclerView = view.findViewById(R.id.householder_recyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-        list = getAllListPost(1);
-        listUser = getUserinfo();
         householderAdapter = new HouseholderAdapter(listUser, list, getActivity());
         recyclerView.setAdapter(householderAdapter);
-    }
-
-    private ArrayList<User> getUserinfo() {
-        ArrayList<User> list = new ArrayList<>();
-        int role_id = 1;
-        try {
-            connectDatabase = new ConnectDatabase();
-            connection = connectDatabase.ConnectToDatabase();
-
-            if (connection != null) {
-                // Check username is valid in database
-                String query = "select user_id, username, avatar from [User] where role_id = " + role_id + ";";
-
-                st = connection.createStatement();
-                rs = st.executeQuery(query);
-
-                int i = 0;
-                while (rs.next()) {
-                    User user = new User(
-                            rs.getInt("user_id"),
-                            rs.getString("username"),
-                            rs.getString("avatar")
-                    );
-                    list.add(user);
-                    ++i;
-                }
-            }
-        } catch (Exception e) {
-            Log.e("Error", "Get User info fail");
-        }
-        return list;
-    }
-
-    public ArrayList<Post> getAllListPost(int type_id) {
-        ArrayList<Post> list = new ArrayList<>();
-        try {
-            try {
-                connectDatabase = new ConnectDatabase();
-                connection = connectDatabase.ConnectToDatabase();
-
-                if (connection != null) {
-                    String selectQuery = "Select * from [Post] where type_id = " + type_id + ";";
-
-                    st = connection.createStatement();
-                    rs = st.executeQuery(selectQuery);
-
-                    int i = 0;
-                    while (rs.next()) {
-                        Post post = new Post(
-                                rs.getInt("post_id"),
-                                rs.getInt("user_id"),
-                                rs.getString("title"),
-                                rs.getString("description"),
-                                rs.getString("address"),
-                                rs.getString("price"),
-                                rs.getInt("type_id"),
-                                rs.getString("poster"),
-                                rs.getString("contact"));
-                        list.add(post);
-                        ++i;
-                    }
-                } else {
-                    Log.e("Error: ", "Connect fail");
-                }
-            } catch (Exception ex) {
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return list;
     }
 }
