@@ -105,8 +105,7 @@ public class HomeFragment extends Fragment {
                 connection = connectDatabase.ConnectToDatabase();
 
                 if (connection != null) {
-                    String selectQuery = "select top 3 * from Post where type_id = " + type_id + " order by create_at desc;";
-
+                    String selectQuery = "select top 3 * from Post where type_id = " + type_id + " order by post_id desc;";
                     st = connection.createStatement();
                     rs = st.executeQuery(selectQuery);
 
@@ -145,7 +144,7 @@ public class HomeFragment extends Fragment {
                 connection = connectDatabase.ConnectToDatabase();
 
                 if (connection != null) {
-                    String selectQuery = "Select * from [Post];";
+                    String selectQuery = "SELECT * FROM [Post] ORDER BY post_id DESC;";
 
                     st = connection.createStatement();
                     rs = st.executeQuery(selectQuery);

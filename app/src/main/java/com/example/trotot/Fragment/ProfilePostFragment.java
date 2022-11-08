@@ -111,7 +111,7 @@ public class ProfilePostFragment extends Fragment {
             connection = connectDatabase.ConnectToDatabase();
 
             if (connection != null) {
-                String selectQuery = "Select * from [Post] where user_id = " + user_id + ";";
+                String selectQuery = "Select * from [Post] where user_id = " + user_id + " order by post_id desc;";
 
                 st = connection.createStatement();
                 rs = st.executeQuery(selectQuery);
