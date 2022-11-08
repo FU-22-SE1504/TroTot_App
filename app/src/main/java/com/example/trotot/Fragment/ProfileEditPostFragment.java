@@ -86,10 +86,7 @@ public class ProfileEditPostFragment extends Fragment {
             btnChangeImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent();
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                    intent.setType("image/*");
-                    startForMediaPickerResult.launch(intent);
+                    selectImage();
                 }
             });
         }
@@ -123,6 +120,25 @@ public class ProfileEditPostFragment extends Fragment {
         byte[] bytes = byteArrayOutputStream.toByteArray();
         String image = Base64.encodeToString(bytes, Base64.DEFAULT);
         return image;
+    }
+
+    final ActivityResultLauncher<Intent> startForMediaPickerResult = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                Intent data = result.getData();
+                if (data != null && result.getResultCode() == Activity.RESULT_OK) {
+                    uri = data.getData();
+                    posterImg.setImageURI(uri);
+                } else {
+                    Toast.makeText(requireActivity(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+    private void selectImage() {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startForMediaPickerResult.launch(intent);
     }
 
     private void UpdatePost(int postId, int postType) {
@@ -199,30 +215,6 @@ public class ProfileEditPostFragment extends Fragment {
 
         address = view.findViewById(R.id.edit_post_text_layout_address);
         price = view.findViewById(R.id.edit_post_text_layout_price);
-    }
-
-    final ActivityResultLauncher<Intent> startForMediaPickerResult = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                Intent data = result.getData();
-                if (data != null && result.getResultCode() == Activity.RESULT_OK) {
-                    uri = data.getData();
-                    posterImg.setImageURI(uri);
-                } else {
-                    Toast.makeText(requireActivity(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show();
-                }
-            });
-
-    // Encode image uri to byte array
-    public String saveImage() {
-        BitmapDrawable bitmapDrawable = (BitmapDrawable) posterImg.getDrawable();
-        Bitmap bitmap = bitmapDrawable.getBitmap();
-
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-        byte[] bytes = byteArrayOutputStream.toByteArray();
-        String image = Base64.encodeToString(bytes, Base64.DEFAULT);
-        return image;
     }
 
     // Check validation

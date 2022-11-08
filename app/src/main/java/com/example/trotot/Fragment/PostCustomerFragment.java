@@ -88,7 +88,7 @@ public class PostCustomerFragment extends Fragment {
                 progressDialog.setTitle("Uploading File....");
                 progressDialog.show();
                 String insertQuery = "insert into Post (user_id, title, description, contact, type_id)" +
-                        " values (" + user_id + ", '" + title + "', '" + description + "', '" + contact + "', " + postType + ");";
+                        " values (" + user_id + ", N'" + title + "', N'" + description + "', N'" + contact + "', " + postType + ");";
 
                 Statement st = connection.createStatement();
                 st.executeUpdate(insertQuery);

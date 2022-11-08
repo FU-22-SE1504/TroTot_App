@@ -132,10 +132,10 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<ProfilePostAdapter.
             String selectQuery = "Delete from [Post] where post_id = " + post_id + ";";
             try{
                 st = connection.createStatement();
-                rs = st.executeQuery(selectQuery);
+                st.executeUpdate(selectQuery);
                 Toast.makeText(context, "Delete success", Toast.LENGTH_SHORT).show();
             }catch (Exception e){
-                Toast.makeText(context, "Delete fail", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Delete Fail", Toast.LENGTH_SHORT).show();
             }
         } else {
             Log.e("Error: ", "Connect fail");
