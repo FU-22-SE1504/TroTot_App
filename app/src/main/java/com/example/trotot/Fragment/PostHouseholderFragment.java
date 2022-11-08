@@ -112,7 +112,7 @@ import java.util.prefs.Preferences;
                         progressDialog.show();
                         String poster = saveImage();
                         String insertQuery = "insert into Post (user_id, title, description, address, price, contact, poster, type_id)" +
-                                " values ("+user_id+", '"+title+"', '"+description+"', '"+address+"', '"+price+"', '"+contact+"', '"+poster+"', "+postType+");";
+                                " values ("+user_id+", N'"+title+"', N'"+description+"', N'"+address+"', N'"+price+"', N'"+contact+"', '"+poster+"', "+postType+");";
 
                         Statement st = connection.createStatement();
                         st.executeUpdate(insertQuery);

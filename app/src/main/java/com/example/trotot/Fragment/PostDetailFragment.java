@@ -8,11 +8,13 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,13 +28,9 @@ public class PostDetailFragment extends Fragment {
     View view;
     Post post;
     TextView tv_title, tv_description, tv_contact, tv_address, tv_price;
+    Button btnBack;
     LinearLayout lo_address, lo_poster;
     ImageView imgPoster;
-
-    //Session
-    SharedPreferences prefs;
-    public static final String PREFERENCE_NAME = "PREFERENCE_DATA";
-    Integer user_id;
 
     Bitmap bitmap;
 
@@ -73,6 +71,14 @@ public class PostDetailFragment extends Fragment {
             lo_address.setVisibility(View.GONE);
         }
 
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.popBackStack();
+            }
+        });
+
         return view;
     }
 
@@ -84,6 +90,8 @@ public class PostDetailFragment extends Fragment {
         tv_price = view.findViewById(R.id.detail_price);
 
         imgPoster = view.findViewById(R.id.detail_poster);
+
+        btnBack = view.findViewById(R.id.post_detail_back);
 
         lo_address = view.findViewById(R.id.detail_layout_address);
         lo_poster = view.findViewById(R.id.detail_layout_poster);

@@ -115,7 +115,7 @@ public class RecommendPostAdapter extends RecyclerView.Adapter<RecommendPostAdap
             Bundle bundle = new Bundle();
             bundle.putSerializable("Post_Detail", post);
             fragment.setArguments(bundle);
-            appCompatActivity.getSupportFragmentManager().beginTransaction().replace(R.id.body_container, fragment).commit();
+            appCompatActivity.getSupportFragmentManager().beginTransaction().replace(R.id.body_container, fragment).addToBackStack(null).commit();
         }else {
             context.startActivity(new Intent(context, LoginActivity.class));
         }
