@@ -1,7 +1,9 @@
 package com.example.trotot.Adapter;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,17 +16,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.trotot.Database.ConnectDatabase;
 import com.example.trotot.Fragment.ProfileEditPostFragment;
+import com.example.trotot.Fragment.ProfileFragment;
 import com.example.trotot.Model.Post;
 import com.example.trotot.Model.User;
 import com.example.trotot.R;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +42,12 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<ProfilePostAdapter.
     ArrayList<Post> list;
     User user;
     Context context;
+
+    // Connect
+    ConnectDatabase connectDatabase;
+    Connection connection;
+    Statement st;
+    ResultSet rs;
 
     Bitmap bitmap;
     ProgressDialog progressDialog;
@@ -87,6 +101,45 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<ProfilePostAdapter.
                 appCompatActivity.getSupportFragmentManager().beginTransaction().replace(R.id.body_container, fragment).addToBackStack(null).commit()    ;
             }
         });
+
+        // Delete post
+        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(context)
+                        .setMessage("Are you sure want to delete")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                DeletePost(post.getPost_id());
+                                Fragment fragment = new ProfileFragment();
+                                AppCompatActivity appCompatActivity = (AppCompatActivity) view.getContext();
+                                appCompatActivity.getSupportFragmentManager().beginTransaction().replace(R.id.body_container, fragment).commit();
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+            }
+        });
+    }
+
+    private void DeletePost(int post_id) {
+        connectDatabase = new ConnectDatabase();
+        connection = connectDatabase.ConnectToDatabase();
+
+        if (connection != null) {
+            String selectQuery = "Delete from [Post] where post_id = " + post_id + ";";
+            try{
+                st = connection.createStatement();
+                rs = st.executeQuery(selectQuery);
+                Toast.makeText(context, "Delete success", Toast.LENGTH_SHORT).show();
+            }catch (Exception e){
+                Toast.makeText(context, "Delete fail", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Log.e("Error: ", "Connect fail");
+        }
     }
 
     @Override
