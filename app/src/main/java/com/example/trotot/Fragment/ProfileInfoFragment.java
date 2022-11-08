@@ -31,7 +31,7 @@ import java.sql.Statement;
 public class ProfileInfoFragment extends Fragment {
     // View
     View view;
-    Button editProfile;
+    Button editProfile, changePassword;
     EditText edtUsername, edtEmail, edtPhoneNumber, edtFullName;
     EditProfileFragment editProfileFragment;
 
@@ -86,8 +86,25 @@ public class ProfileInfoFragment extends Fragment {
             }
         });
 
+        // Change password
+        changePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                handleChangePass(user);
+            }
+        });
+
         // Inflate the layout for this fragment
         return view;
+    }
+
+    private void handleChangePass(User user) {
+        Fragment fragment = new ResetPasswordFragment();
+        AppCompatActivity appCompatActivity = (AppCompatActivity) view.getContext();
+        bundle = new Bundle();
+        bundle.putSerializable("User_Reset", user);
+        fragment.setArguments(bundle);
+        appCompatActivity.getSupportFragmentManager().beginTransaction().replace(R.id.body_container, fragment).addToBackStack(null).commit();
     }
 
     private void fetchUserData(int userID) {
@@ -123,6 +140,7 @@ public class ProfileInfoFragment extends Fragment {
     }
 
     private void InitView() {
+        changePassword = view.findViewById(R.id.btn_changePassword);
         editProfile = view.findViewById(R.id.btn_EditProfile);
         edtUsername = view.findViewById(R.id.profile_info_username);
         edtEmail = view.findViewById(R.id.profile_info_email);
