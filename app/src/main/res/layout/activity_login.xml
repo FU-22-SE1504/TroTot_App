@@ -15,7 +15,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="45dp"
         android:layout_marginTop="373dp"
-        android:text="Sign Up" />
+        android:text="Login" />
 
     <TextView
         android:id="@+id/btn_Login_SignUp"
@@ -25,7 +25,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="258dp"
         android:layout_marginTop="481dp"
-        android:text="Sign up"
+        android:text="Register"
         android:textColor="@color/primary" />
 
     <TextView

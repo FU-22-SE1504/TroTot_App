@@ -109,7 +109,7 @@ public class HouseholderFragment extends Fragment {
                 connection = connectDatabase.ConnectToDatabase();
 
                 if (connection != null) {
-                    String selectQuery = "Select * from [Post] where type_id = " + type_id + ";";
+                    String selectQuery = "Select * from [Post] where type_id = " + type_id + " order by post_id desc;";
 
                     st = connection.createStatement();
                     rs = st.executeQuery(selectQuery);
